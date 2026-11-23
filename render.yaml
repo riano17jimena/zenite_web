@@ -5,7 +5,7 @@ services:
     runtime: node
     rootDir: servidor
     region: oregon
-    plan: starter
+    plan: free
     buildCommand: npm ci && npx prisma migrate deploy
     startCommand: npm start
     healthCheckPath: /api/salud
