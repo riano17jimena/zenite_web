@@ -1,0 +1,36 @@
+{
+  "name": "zenite-servidor",
+  "version": "1.0.0",
+  "description": "API y panel de administrador de Zenite Web (Express + Prisma + PostgreSQL en Supabase).",
+  "private": true,
+  "type": "module",
+  "main": "src/servidor.js",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "start": "node --env-file-if-exists=.env src/servidor.js",
+    "dev": "node --watch --env-file-if-exists=.env src/servidor.js",
+    "demo": "ZENITE_DEMO=1 node --env-file-if-exists=.env src/servidor.js",
+    "test": "node --test \"pruebas/**/*.test.js\"",
+    "db:generar": "prisma generate",
+    "db:migrar": "prisma migrate deploy",
+    "db:sembrar": "node prisma/sembrar.js",
+    "db:importar-excel": "python3 herramientas/importar_excel.py",
+    "usuario:crear": "node herramientas/crear-usuario.js",
+    "respaldo": "node herramientas/respaldo.js",
+    "postinstall": "prisma generate"
+  },
+  "dependencies": {
+    "@prisma/client": "^6.10.0",
+    "docx": "^9.5.0",
+    "express": "^4.21.2",
+    "ffmpeg-static": "^5.2.0",
+    "nodemailer": "^6.10.0",
+    "sharp": "^0.34.3",
+    "zod": "^3.25.0"
+  },
+  "devDependencies": {
+    "prisma": "^6.10.0"
+  }
+}

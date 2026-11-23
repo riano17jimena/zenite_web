@@ -1,0 +1,9 @@
+stateDiagram-v2
+  [*] --> Invitado: El administrador lo crea
+  Invitado --> Activo: Crea su contraseña (enlace 72 h)
+  Activo --> Bloqueado: 5 intentos fallidos
+  Bloqueado --> Activo: Pasan 15 min / desbloqueo / restablecer contraseña
+  Activo --> Inactivo: El administrador lo desactiva
+  Inactivo --> Activo: Se reactiva
+  Activo --> [*]: Eliminado
+  Inactivo --> [*]: Eliminado

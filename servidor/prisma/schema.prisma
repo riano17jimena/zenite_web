@@ -1,0 +1,533 @@
+// Zenite Web · Modelo de datos (PostgreSQL en Supabase)
+//
+// Convenciones:
+// - Modelos en PascalCase y tablas en snake_case (@@map).
+// - Dinero en Decimal(14,2); se convierte a número al responder en la API.
+// - Las secciones del sitio se editan en estas tablas (borrador). Al pulsar
+//   «Publicar», se guarda una copia en `publicacion` y el sitio lee esa copia.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+// ─── Usuarios y acceso ────────────────────────────────────────────────────
+
+enum Rol {
+  ADMINISTRADOR
+  EDITOR
+}
+
+enum PropositoCodigo {
+  SEGUNDO_FACTOR
+  RECUPERACION
+}
+
+model Usuario {
+  id               Int       @id @default(autoincrement())
+  nombre           String
+  correo           String    @unique
+  rol              Rol       @default(EDITOR)
+  hashContrasena   String    @map("hash_contrasena")
+  activo           Boolean   @default(true)
+  intentosFallidos Int       @default(0) @map("intentos_fallidos")
+  bloqueadoHasta   DateTime? @map("bloqueado_hasta")
+  ultimoAcceso     DateTime? @map("ultimo_acceso")
+  creado           DateTime  @default(now())
+  actualizado      DateTime  @updatedAt
+
+  sesiones      Sesion[]
+  codigos       CodigoVerificacion[]
+  cambios       HistorialCambio[]
+  publicaciones Publicacion[]
+
+  @@map("usuario")
+}
+
+model Sesion {
+  id              String   @id // hash SHA-256 del token de la cookie
+  usuarioId       Int      @map("usuario_id")
+  expira          DateTime
+  ultimaActividad DateTime @default(now()) @map("ultima_actividad")
+  ip              String?
+  agente          String?
+  creada          DateTime @default(now())
+
+  usuario Usuario @relation(fields: [usuarioId], references: [id], onDelete: Cascade)
+
+  @@index([usuarioId])
+  @@map("sesion")
+}
+
+model CodigoVerificacion {
+  id          Int             @id @default(autoincrement())
+  usuarioId   Int             @map("usuario_id")
+  proposito   PropositoCodigo
+  hashDesafio String          @unique @map("hash_desafio") // identifica el intento sin exponer el usuario
+  hashCodigo  String          @map("hash_codigo")
+  expira      DateTime
+  intentos    Int             @default(0)
+  usado       DateTime?
+  creado      DateTime        @default(now())
+
+  usuario Usuario @relation(fields: [usuarioId], references: [id], onDelete: Cascade)
+
+  @@index([usuarioId])
+  @@map("codigo_verificacion")
+}
+
+// ─── Archivos (fotos y videos en Supabase Storage) ───────────────────────
+
+enum TipoMedio {
+  IMAGEN
+  VIDEO
+}
+
+enum EstadoMedio {
+  PROCESANDO
+  LISTO
+  ERROR
+}
+
+model Medio {
+  id         Int         @id @default(autoincrement())
+  tipo       TipoMedio
+  clave      String      @unique // ruta dentro del bucket
+  url        String
+  mime       String
+  bytes      Int
+  ancho      Int?
+  alto       Int?
+  duracion   Float?
+  alt        String?     // texto alternativo (obligatorio en imágenes)
+  nombre     String      // nombre original del archivo
+  estado     EstadoMedio @default(LISTO)
+  error      String?
+  variantes  Json?       // { "640": url, "1280": url, "poster": url }
+  creado     DateTime    @default(now())
+
+  heroes            Hero[]
+  imagenesProyecto  ImagenProyecto[]
+  videos            Video[]          @relation("VideoArchivo")
+  posters           Video[]          @relation("VideoPoster")
+  testimonios       Testimonio[]
+  perfiles          Perfil[]
+  insumos           Insumo[]
+
+  @@map("medio")
+}
+
+// ─── Contenido del sitio (borrador editable) ─────────────────────────────
+
+model Hero {
+  id          Int      @id @default(1)
+  antetitulo  String
+  titulo      String
+  texto       String
+  imagenId    Int?     @map("imagen_id")
+  imagenAlt   String   @map("imagen_alt")
+  pieImagen   String?  @map("pie_imagen")
+  actualizado DateTime @updatedAt
+
+  imagen Medio? @relation(fields: [imagenId], references: [id], onDelete: SetNull)
+
+  @@map("hero")
+}
+
+model Proyecto {
+  id          Int      @id @default(autoincrement())
+  titulo      String
+  categoria   String   // residencial, comercial, dotacional, recreativo, industrial, intervenciones, urbanismo
+  ubicacion   String?
+  anio        Int?
+  area        Int?
+  descripcion String
+  destacado   Boolean  @default(false)
+  visible     Boolean  @default(true)
+  orden       Int      @default(0)
+  creado      DateTime @default(now())
+  actualizado DateTime @updatedAt
+
+  imagenes ImagenProyecto[]
+
+  @@index([orden])
+  @@map("proyecto")
+}
+
+model ImagenProyecto {
+  id         Int    @id @default(autoincrement())
+  proyectoId Int    @map("proyecto_id")
+  medioId    Int    @map("medio_id")
+  alt        String
+  orden      Int    @default(0)
+
+  proyecto Proyecto @relation(fields: [proyectoId], references: [id], onDelete: Cascade)
+  medio    Medio    @relation(fields: [medioId], references: [id], onDelete: Restrict)
+
+  @@index([proyectoId])
+  @@map("imagen_proyecto")
+}
+
+model Video {
+  id             Int      @id @default(autoincrement())
+  titulo         String
+  etiqueta       String
+  descripcion    String
+  transcripcion  String?
+  duracionSeg    Int?     @map("duracion_seg")
+  archivoId      Int      @map("archivo_id")
+  posterId       Int?     @map("poster_id")
+  visible        Boolean  @default(true)
+  orden          Int      @default(0)
+  creado         DateTime @default(now())
+  actualizado    DateTime @updatedAt
+
+  archivo Medio  @relation("VideoArchivo", fields: [archivoId], references: [id], onDelete: Restrict)
+  poster  Medio? @relation("VideoPoster", fields: [posterId], references: [id], onDelete: SetNull)
+
+  @@map("video")
+}
+
+model Testimonio {
+  id          Int      @id @default(autoincrement())
+  nombre      String
+  proyecto    String
+  ciudad      String?
+  comentario  String
+  fotoId      Int?     @map("foto_id")
+  fotoAlt     String?  @map("foto_alt")
+  autorizado  Boolean  @default(false) // el cliente autorizó publicar su testimonio
+  visible     Boolean  @default(true)
+  orden       Int      @default(0)
+  creado      DateTime @default(now())
+  actualizado DateTime @updatedAt
+
+  foto Medio? @relation(fields: [fotoId], references: [id], onDelete: SetNull)
+
+  @@map("testimonio")
+}
+
+model PreguntaFrecuente {
+  id          Int      @id @default(autoincrement())
+  pregunta    String
+  respuesta   String
+  visible     Boolean  @default(true)
+  orden       Int      @default(0)
+  actualizado DateTime @updatedAt
+
+  @@map("pregunta_frecuente")
+}
+
+enum TipoDatoContacto {
+  WHATSAPP
+  TELEFONO
+  CORREO
+  INSTAGRAM
+  DIRECCION
+  HORARIO
+  OTRO
+}
+
+model DatoContacto {
+  id          Int              @id @default(autoincrement())
+  tipo        TipoDatoContacto
+  etiqueta    String
+  valor       String
+  enlace      String?
+  visible     Boolean          @default(true)
+  orden       Int              @default(0)
+  actualizado DateTime         @updatedAt
+
+  @@map("dato_contacto")
+}
+
+model Perfil {
+  id          Int      @id @default(autoincrement())
+  nombre      String
+  cargo       String
+  lema        String?
+  mision      String?
+  formacion   String
+  trayectoria String
+  experiencia String?
+  fotoId      Int?     @map("foto_id")
+  fotoAlt     String?  @map("foto_alt")
+  visible     Boolean  @default(true)
+  orden       Int      @default(0)
+  actualizado DateTime @updatedAt
+
+  foto Medio? @relation(fields: [fotoId], references: [id], onDelete: SetNull)
+
+  @@map("perfil")
+}
+
+// ─── Publicación e historial ─────────────────────────────────────────────
+
+model Publicacion {
+  id             Int      @id @default(autoincrement())
+  version        Int      @unique
+  contenido      Json
+  nota           String?
+  restauradaDe   Int?     @map("restaurada_de")
+  publicadaPorId Int?     @map("publicada_por_id")
+  publicada      DateTime @default(now())
+
+  publicadaPor Usuario? @relation(fields: [publicadaPorId], references: [id], onDelete: SetNull)
+
+  @@map("publicacion")
+}
+
+enum AccionHistorial {
+  CREAR
+  ACTUALIZAR
+  ELIMINAR
+  ORDENAR
+  PUBLICAR
+  RESTAURAR
+}
+
+model HistorialCambio {
+  id        Int             @id @default(autoincrement())
+  usuarioId Int?            @map("usuario_id")
+  entidad   String
+  entidadId String?         @map("entidad_id")
+  accion    AccionHistorial
+  resumen   String
+  antes     Json?
+  despues   Json?
+  fecha     DateTime        @default(now())
+
+  usuario Usuario? @relation(fields: [usuarioId], references: [id], onDelete: SetNull)
+
+  @@index([entidad, entidadId])
+  @@index([fecha])
+  @@map("historial_cambio")
+}
+
+// ─── Base de precios (privada) ────────────────────────────────────────────
+
+enum TipoInsumo {
+  MATERIAL
+  EQUIPO
+  MANO_OBRA
+  TRANSPORTE
+  SUBCONTRATO
+  AUXILIAR
+  OTRO
+}
+
+model Capitulo {
+  id             Int     @id @default(autoincrement())
+  codigo         String  @unique
+  nombre         String
+  orden          Int     @default(0)
+  visiblePublico Boolean @default(true) @map("visible_publico")
+
+  actividades Actividad[]
+
+  @@map("capitulo")
+}
+
+model Actividad {
+  id             Int      @id @default(autoincrement())
+  codigo         String   @unique
+  capituloId     Int      @map("capitulo_id")
+  subcapitulo    String?
+  descripcion    String
+  unidad         String
+  precioUnitario Decimal  @map("precio_unitario") @db.Decimal(14, 2)
+  visiblePublico Boolean  @default(true) @map("visible_publico")
+  actualizado    DateTime @updatedAt
+
+  capitulo    Capitulo        @relation(fields: [capituloId], references: [id], onDelete: Restrict)
+  componentes ComponenteApu[] @relation("ApuActividad")
+
+  @@index([capituloId])
+  @@map("actividad")
+}
+
+model Insumo {
+  id          Int        @id @default(autoincrement())
+  clave       String     @unique // DESCRIPCIÓN|UNIDAD normalizada
+  descripcion String
+  unidad      String
+  tipo        TipoInsumo @default(MATERIAL)
+  precio      Decimal    @db.Decimal(14, 2)
+  imagenId    Int?       @map("imagen_id")
+  actualizado DateTime   @updatedAt
+
+  imagen              Medio?          @relation(fields: [imagenId], references: [id], onDelete: SetNull)
+  usadoEn             ComponenteApu[] @relation("ApuInsumo")
+  componentesAuxiliar ComponenteApu[] @relation("ApuAuxiliar")
+
+  @@index([tipo])
+  @@map("insumo")
+}
+
+/// Línea de un análisis de precios unitarios. Pertenece a una actividad
+/// o a un insumo auxiliar (nunca a ambos).
+model ComponenteApu {
+  id          Int     @id @default(autoincrement())
+  actividadId Int?    @map("actividad_id")
+  auxiliarId  Int?    @map("auxiliar_id")
+  insumoId    Int?    @map("insumo_id")
+  grupo       String
+  descripcion String
+  unidad      String
+  cantidad    Decimal @db.Decimal(18, 6)
+  precio      Decimal @db.Decimal(14, 2) // precio registrado o base del porcentaje
+  porcentaje  Boolean @default(false)
+  orden       Int     @default(0)
+
+  actividad Actividad? @relation("ApuActividad", fields: [actividadId], references: [id], onDelete: Cascade)
+  auxiliar  Insumo?    @relation("ApuAuxiliar", fields: [auxiliarId], references: [id], onDelete: Cascade)
+  insumo    Insumo?    @relation("ApuInsumo", fields: [insumoId], references: [id], onDelete: SetNull)
+
+  @@index([actividadId])
+  @@index([auxiliarId])
+  @@index([insumoId])
+  @@map("componente_apu")
+}
+
+// ─── Cotizador ───────────────────────────────────────────────────────────
+
+enum CategoriaServicio {
+  CONSULTORIA
+  FINANCIERA
+}
+
+enum UnidadCobro {
+  M2
+  GLOBAL
+  MES
+  UNIDAD
+  HORA
+}
+
+model ServicioCatalogo {
+  id           Int               @id @default(autoincrement())
+  categoria    CategoriaServicio
+  nombre       String
+  descripcion  String
+  unidad       UnidadCobro
+  precio       Decimal           @db.Decimal(14, 2)
+  cargoMinimo  Decimal?          @map("cargo_minimo") @db.Decimal(14, 2)
+  provisional  Boolean           @default(true)
+  visible      Boolean           @default(true)
+  orden        Int               @default(0)
+  actualizado  DateTime          @updatedAt
+
+  @@map("servicio_catalogo")
+}
+
+model ConfiguracionCotizador {
+  id               Int      @id @default(1)
+  administracion   Decimal  @default(0.10) @db.Decimal(6, 4)
+  imprevistos      Decimal  @default(0.05) @db.Decimal(6, 4)
+  utilidad         Decimal  @default(0.05) @db.Decimal(6, 4)
+  ivaSobreUtilidad Decimal  @default(0.19) @map("iva_sobre_utilidad") @db.Decimal(6, 4)
+  validezDias      Int      @default(15) @map("validez_dias")
+  correoDestino    String   @default("zeniteark@gmail.com") @map("correo_destino")
+  avisoReferencial String   @map("aviso_referencial")
+  condicionesPago  String   @map("condiciones_pago")
+  datosPago        String?  @map("datos_pago")
+  maxLineas        Int      @default(60) @map("max_lineas")
+  actualizado      DateTime @updatedAt
+
+  @@map("configuracion_cotizador")
+}
+
+enum SeccionCotizacion {
+  CONSULTORIA
+  CONSTRUCCION
+  FINANCIERA
+}
+
+model Cotizacion {
+  id                   Int       @id @default(autoincrement())
+  codigo               String    @unique // ZEN-2026-0001
+  nombreCliente        String    @map("nombre_cliente")
+  correoCliente        String    @map("correo_cliente")
+  telefonoCliente      String    @map("telefono_cliente")
+  ciudad               String?
+  tipoProyecto         String?   @map("tipo_proyecto")
+  areaM2               Decimal?  @map("area_m2") @db.Decimal(12, 2)
+  subtotalConsultoria  Decimal   @map("subtotal_consultoria") @db.Decimal(16, 2)
+  subtotalConstruccion Decimal   @map("subtotal_construccion") @db.Decimal(16, 2)
+  subtotalFinanciera   Decimal   @map("subtotal_financiera") @db.Decimal(16, 2)
+  administracion       Decimal   @db.Decimal(16, 2)
+  imprevistos          Decimal   @db.Decimal(16, 2)
+  utilidad             Decimal   @db.Decimal(16, 2)
+  ivaUtilidad          Decimal   @map("iva_utilidad") @db.Decimal(16, 2)
+  total                Decimal   @db.Decimal(16, 2)
+  parametros           Json      // porcentajes y textos usados al calcular
+  enviadaEn            DateTime? @map("enviada_en")
+  errorEnvio           String?   @map("error_envio")
+  creada               DateTime  @default(now())
+
+  lineas    CotizacionLinea[]
+  solicitud SolicitudContacto?
+
+  @@index([creada])
+  @@map("cotizacion")
+}
+
+model CotizacionLinea {
+  id             Int               @id @default(autoincrement())
+  cotizacionId   Int               @map("cotizacion_id")
+  seccion        SeccionCotizacion
+  referencia     String            // código de actividad o id del servicio
+  descripcion    String
+  unidad         String
+  cantidad       Decimal           @db.Decimal(14, 3)
+  precioUnitario Decimal           @map("precio_unitario") @db.Decimal(14, 2)
+  valor          Decimal           @db.Decimal(16, 2)
+  orden          Int               @default(0)
+
+  cotizacion Cotizacion @relation(fields: [cotizacionId], references: [id], onDelete: Cascade)
+
+  @@index([cotizacionId])
+  @@map("cotizacion_linea")
+}
+
+// ─── Solicitudes de contacto (Ley 1581 de 2012) ──────────────────────────
+
+enum EstadoSolicitud {
+  NUEVA
+  EN_REVISION
+  CONTACTADA
+  CERRADA
+  DESCARTADA
+}
+
+model SolicitudContacto {
+  id                  Int             @id @default(autoincrement())
+  nombre              String
+  correo              String
+  telefono            String
+  tipoProyecto        String?         @map("tipo_proyecto")
+  mensaje             String
+  origen              String          @default("FORMULARIO") // FORMULARIO o COTIZADOR
+  estado              EstadoSolicitud @default(NUEVA)
+  notas               String?
+  consentimiento      Boolean
+  versionPolitica     String          @map("version_politica")
+  fechaConsentimiento DateTime        @map("fecha_consentimiento")
+  ipHash              String?         @map("ip_hash")
+  correoEnviado       Boolean         @default(false) @map("correo_enviado")
+  cotizacionId        Int?            @unique @map("cotizacion_id")
+  eliminarDespues     DateTime        @map("eliminar_despues")
+  creada              DateTime        @default(now())
+  actualizada         DateTime        @updatedAt
+
+  cotizacion Cotizacion? @relation(fields: [cotizacionId], references: [id], onDelete: SetNull)
+
+  @@index([estado])
+  @@index([creada])
+  @@map("solicitud_contacto")
+}

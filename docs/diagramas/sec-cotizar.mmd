@@ -1,0 +1,30 @@
+sequenceDiagram
+  autonumber
+  actor V as Visitante
+  participant S as Sitio (cotizador.js)
+  participant API as API Express
+  participant DB as PostgreSQL
+  participant W as Generador Word
+  participant M as Correo (SMTP)
+  V->>S: Abre «Abrir el cotizador»
+  S->>API: GET /api/publico/cotizador/opciones
+  API->>DB: Tipos, capítulos y servicios visibles (sin precios)
+  API-->>S: Opciones
+  V->>S: Elige servicios y busca actividades de obra
+  S->>API: GET /cotizador/actividades?capitulo=&buscar=
+  API-->>S: Máx. 30 actividades (código, descripción, unidad)
+  V->>S: Escribe cantidades y pulsa «Calcular cotización»
+  S->>S: validarSeleccion()
+  S->>API: POST /cotizador/calcular {seleccion}
+  API->>DB: Precios de servicios y actividades
+  API->>API: calcularCotizacion(): subtotales + AIU
+  API-->>S: Líneas, AIU y total referencial
+  V->>S: Datos de contacto + autorización (Ley 1581)
+  S->>API: POST /api/publico/cotizaciones
+  API->>API: Recalcula en el servidor
+  API->>DB: Guarda cotización, líneas y solicitud
+  API->>W: generarDocumentoCotizacion()
+  W-->>API: .docx con la plantilla de Zenite
+  API->>M: Envía a zeniteark@gmail.com con el Word adjunto
+  API-->>S: 201 {codigo: ZEN-2026-0001}
+  S-->>V: Confirmación con el número de cotización

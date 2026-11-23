@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="es-CO">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Panel Zenite Web</title>
+  <link rel="icon" href="img/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="css/panel.css">
+  <script type="module" src="js/app.js"></script>
+</head>
+<body>
+  <a class="saltar" href="#contenido">Saltar al contenido</a>
+  <header class="barra-superior">
+    <span><strong>Zenite Web</strong> · Panel</span>
+    <button type="button" class="boton boton-pequeno" id="boton-menu" aria-expanded="false" aria-controls="menu">Menú</button>
+  </header>
+  <div class="aplicacion">
+    <nav id="menu" class="menu" aria-label="Secciones del panel"></nav>
+    <main id="contenido" class="contenido" tabindex="-1">
+      <div class="usuario-actual" id="usuario-actual"></div>
+      <div id="vista"><p class="texto-suave">Cargando el panel…</p></div>
+    </main>
+  </div>
+</body>
+</html>

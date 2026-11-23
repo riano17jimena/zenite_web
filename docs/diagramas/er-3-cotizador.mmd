@@ -1,0 +1,86 @@
+erDiagram
+  CAPITULO ||--o{ ACTIVIDAD : "agrupa"
+  ACTIVIDAD ||--o{ COMPONENTE_APU : "se analiza con"
+  INSUMO |o--o{ COMPONENTE_APU : "aporta precio a"
+  INSUMO |o--o{ COMPONENTE_APU : "auxiliar compuesto por"
+  COTIZACION ||--|{ COTIZACION_LINEA : "se compone de"
+  COTIZACION |o--o| SOLICITUD_CONTACTO : "origina"
+  CAPITULO {
+    int id PK
+    string codigo UK
+    string nombre
+    bool visible_publico
+  }
+  ACTIVIDAD {
+    int id PK
+    string codigo UK "3.15 o 22.63.04"
+    int capitulo_id FK
+    string descripcion
+    string unidad
+    decimal precio_unitario "calculado con el APU"
+  }
+  INSUMO {
+    int id PK
+    string clave UK
+    string descripcion
+    enum tipo "MATERIAL, EQUIPO, MANO_OBRA, AUXILIAR..."
+    decimal precio
+  }
+  COMPONENTE_APU {
+    int id PK
+    int actividad_id FK "o auxiliar_id"
+    int auxiliar_id FK
+    int insumo_id FK
+    string grupo
+    decimal cantidad
+    decimal precio
+    bool porcentaje "%MO"
+  }
+  SERVICIO_CATALOGO {
+    int id PK
+    enum categoria "CONSULTORIA | FINANCIERA"
+    string nombre
+    enum unidad "M2, GLOBAL, MES, UNIDAD, HORA"
+    decimal precio
+    decimal cargo_minimo
+    bool visible
+  }
+  CONFIGURACION_COTIZADOR {
+    int id PK "siempre 1"
+    decimal administracion "10 %"
+    decimal imprevistos "5 %"
+    decimal utilidad "5 %"
+    decimal iva_sobre_utilidad "19 %"
+    string correo_destino
+  }
+  COTIZACION {
+    int id PK
+    string codigo UK "ZEN-AAAA-NNNN"
+    string nombre_cliente
+    decimal subtotal_construccion
+    decimal total
+    json parametros "AIU aplicado"
+    datetime enviada_en
+  }
+  COTIZACION_LINEA {
+    int id PK
+    int cotizacion_id FK
+    enum seccion "CONSULTORIA, CONSTRUCCION, FINANCIERA"
+    string referencia
+    decimal cantidad
+    decimal precio_unitario
+    decimal valor
+  }
+  SOLICITUD_CONTACTO {
+    int id PK
+    string nombre
+    string correo
+    string telefono
+    enum origen "FORMULARIO | COTIZADOR"
+    enum estado "NUEVA ... CERRADA"
+    bool consentimiento
+    string version_politica
+    string ip_hash
+    int cotizacion_id FK
+    datetime eliminar_despues "24 meses"
+  }

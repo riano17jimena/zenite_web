@@ -1,0 +1,16 @@
+stateDiagram-v2
+  [*] --> Nueva: Formulario o cotizador
+  Nueva --> EnRevision: El administrador la abre
+  Nueva --> Descartada: Spam o datos inválidos
+  EnRevision --> Contactada: Se responde al cliente
+  EnRevision --> Descartada: No procede
+  Contactada --> EnRevision: Falta información
+  Contactada --> Cerrada: Resultado definido
+  Cerrada --> [*]
+  Descartada --> [*]
+  Nueva --> Eliminada: Solicitud del titular (Ley 1581)
+  Contactada --> Anonimizada: 24 meses
+  Cerrada --> Anonimizada: 24 meses
+  Eliminada --> [*]
+  Anonimizada --> [*]
+  EnRevision: En revisión

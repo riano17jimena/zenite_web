@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="es-CO">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Ingresar · Panel Zenite Web</title>
+  <link rel="icon" href="img/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="css/panel.css">
+  <script type="module" src="js/acceso.js"></script>
+</head>
+<body data-pagina="ingresar">
+  <main class="acceso" id="contenido">
+    <div class="acceso-tarjeta">
+      <div class="acceso-marca"><img src="img/favicon.svg" alt=""><span>Zenite Web · Panel</span></div>
+      <div id="mensajes"></div>
+
+      <section id="paso-contrasena" aria-labelledby="titulo-ingresar">
+        <h1 id="titulo-ingresar">Ingresar al panel</h1>
+        <p class="texto-suave">Paso 1 de 2: escribe tu correo y tu contraseña.</p>
+        <form id="form-ingresar" novalidate>
+          <div class="campo" data-campo="correo">
+            <label for="correo">Correo electrónico</label>
+            <input id="correo" name="correo" type="email" autocomplete="username" required aria-required="true" aria-describedby="correo-error">
+            <span id="correo-error" class="error-campo"></span>
+          </div>
+          <div class="campo" data-campo="contrasena">
+            <label for="contrasena">Contraseña</label>
+            <input id="contrasena" name="contrasena" type="password" autocomplete="current-password" required aria-required="true" aria-describedby="contrasena-error">
+            <span id="contrasena-error" class="error-campo"></span>
+          </div>
+          <div class="campo-casilla">
+            <input id="mostrar" type="checkbox" data-ignorar="si">
+            <label for="mostrar">Mostrar contraseña</label>
+          </div>
+          <button class="boton boton-primario" type="submit">Continuar</button>
+        </form>
+        <p class="acceso-pie"><a href="recuperar.html">¿Olvidaste tu contraseña?</a></p>
+      </section>
+
+      <section id="paso-codigo" aria-labelledby="titulo-codigo" hidden>
+        <h1 id="titulo-codigo" tabindex="-1">Revisa tu correo</h1>
+        <p>Paso 2 de 2: te enviamos un código de 6 números a <strong id="correo-oculto"></strong>. Vence en <span id="minutos">10</span> minutos.</p>
+        <form id="form-codigo" novalidate>
+          <div class="campo" data-campo="codigo">
+            <label for="codigo">Código de acceso</label>
+            <input id="codigo" name="codigo" type="text" inputmode="numeric" autocomplete="one-time-code" maxlength="6" pattern="[0-9]{6}" required aria-required="true" aria-describedby="codigo-ayuda codigo-error">
+            <span id="codigo-ayuda" class="ayuda">Escribe solo los 6 números, sin espacios.</span>
+            <span id="codigo-error" class="error-campo"></span>
+          </div>
+          <div class="grupo-botones">
+            <button class="boton boton-primario" type="submit">Entrar</button>
+            <button class="boton boton-secundario" type="button" id="reenviar">Enviar otro código</button>
+          </div>
+        </form>
+        <p class="acceso-pie"><button type="button" class="boton boton-texto" id="volver">Usar otro correo</button></p>
+      </section>
+      <p class="acceso-pie" id="pie-demo" hidden></p>
+    </div>
+  </main>
+</body>
+</html>

@@ -1,0 +1,36 @@
+# Blueprint de Render: API + panel de Zenite Web
+services:
+  - type: web
+    name: zenite-api
+    runtime: node
+    rootDir: servidor
+    region: oregon
+    plan: starter
+    buildCommand: npm ci && npx prisma migrate deploy
+    startCommand: npm start
+    healthCheckPath: /api/salud
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: NODE_VERSION
+        value: 20
+      - key: URL_API
+        sync: false
+      - key: URL_SITIO
+        sync: false
+      - key: ORIGENES_PERMITIDOS
+        sync: false
+      - key: SECRETO_SESIONES
+        generateValue: true
+      - key: DATABASE_URL
+        sync: false
+      - key: DIRECT_URL
+        sync: false
+      - key: SUPABASE_URL
+        sync: false
+      - key: SUPABASE_SERVICE_ROLE_KEY
+        sync: false
+      - key: SMTP_USUARIO
+        sync: false
+      - key: SMTP_CONTRASENA
+        sync: false

@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="es-CO">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="referrer" content="no-referrer">
+  <title>Crear contraseña · Panel Zenite Web</title>
+  <link rel="icon" href="img/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="css/panel.css">
+  <script type="module" src="js/acceso.js"></script>
+</head>
+<body data-pagina="restablecer">
+  <main class="acceso" id="contenido">
+    <div class="acceso-tarjeta">
+      <div class="acceso-marca"><img src="img/favicon.svg" alt=""><span>Zenite Web · Panel</span></div>
+      <h1 id="titulo">Crear contraseña nueva</h1>
+      <div id="mensajes"></div>
+      <form id="form-restablecer" novalidate>
+        <div class="campo" data-campo="contrasena">
+          <label for="contrasena">Contraseña nueva</label>
+          <input id="contrasena" name="contrasena" type="password" autocomplete="new-password" required aria-required="true" aria-describedby="contrasena-ayuda contrasena-error">
+          <span id="contrasena-ayuda" class="ayuda">Mínimo 10 caracteres, con al menos una letra y un número. Te recomendamos una frase fácil de recordar.</span>
+          <span id="contrasena-error" class="error-campo"></span>
+        </div>
+        <div class="campo" data-campo="confirmar">
+          <label for="confirmar">Repite la contraseña</label>
+          <input id="confirmar" name="confirmar" type="password" autocomplete="new-password" required aria-required="true" aria-describedby="confirmar-error">
+          <span id="confirmar-error" class="error-campo"></span>
+        </div>
+        <div class="campo-casilla">
+          <input id="mostrar" type="checkbox" data-ignorar="si">
+          <label for="mostrar">Mostrar contraseñas</label>
+        </div>
+        <button class="boton boton-primario" type="submit">Guardar contraseña</button>
+      </form>
+      <p class="acceso-pie"><a href="./">Volver a ingresar</a></p>
+    </div>
+  </main>
+</body>
+</html>

@@ -1,0 +1,8 @@
+stateDiagram-v2
+  [*] --> AlDia
+  AlDia --> ConCambios: Editar, ordenar, ocultar o subir
+  ConCambios --> ConCambios: Más cambios / vista previa
+  ConCambios --> AlDia: Publicar (nueva versión)
+  AlDia --> AlDia: Restaurar versión anterior
+  AlDia: Publicado y al día
+  ConCambios: Borrador con cambios sin publicar

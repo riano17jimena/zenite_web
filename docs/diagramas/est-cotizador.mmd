@@ -1,0 +1,15 @@
+stateDiagram-v2
+  [*] --> Cargando: Abrir el cotizador
+  Cargando --> SinConexion: La API no responde
+  SinConexion --> Cargando: Reintentar
+  Cargando --> Eligiendo: Opciones recibidas
+  Eligiendo --> Eligiendo: Marcar servicios / agregar actividades / cambiar pestaña
+  Eligiendo --> ConErrores: Calcular con datos incompletos
+  ConErrores --> Eligiendo: Corregir
+  Eligiendo --> Resultado: Calcular (API)
+  Resultado --> Eligiendo: Volver a editar
+  Resultado --> Enviando: Enviar solicitud
+  Enviando --> Resultado: Error de validación o de red
+  Enviando --> Enviado: 201 con código ZEN
+  Enviado --> Eligiendo: Hacer otra cotización
+  Enviado --> [*]: Cerrar

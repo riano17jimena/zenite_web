@@ -1,0 +1,15 @@
+sequenceDiagram
+  autonumber
+  actor A as Administrador
+  participant P as Panel
+  participant API as API (cotizador)
+  participant C as Calculadora APU
+  participant DB as PostgreSQL
+  A->>P: Cambia el precio de un insumo
+  P->>API: PUT /api/admin/cotizador/insumos/:id
+  API->>DB: Actualiza insumo y componentes que lo usan
+  API->>DB: Busca actividades afectadas (también vía auxiliares)
+  API->>C: sumar(componentes) por actividad
+  C-->>API: Nuevo precio unitario redondeado al peso
+  API->>DB: Actualiza actividades + historial
+  API-->>P: «Se recalcularon N actividades»

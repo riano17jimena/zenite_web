@@ -1,0 +1,9 @@
+[
+{"codigo":"1.01","unidad":"m2","componentes":[
+ {"grupo":"MANO_OBRA","descripcion":"Cuadrilla 1 oficial + 1 ayudante","unidad":"Día","cantidad":0.02,"precio":200000,"porcentaje":false,"insumo":"CUADRILLA 1 OF + 1 AY|DIA"},
+ {"grupo":"EQUIPO","descripcion":"Herramienta menor","unidad":"%MO","cantidad":5,"precio":4000,"porcentaje":true}]},
+{"codigo":"2.01","unidad":"m2","componentes":[
+ {"grupo":"MATERIALES","descripcion":"Bloque N.º 5","unidad":"Un","cantidad":12.5,"precio":1500,"porcentaje":false,"insumo":"BLOQUE N5|UN"},
+ {"grupo":"MATERIALES","descripcion":"Mortero 1:4","unidad":"m3","cantidad":0.02,"precio":0,"porcentaje":false,"insumo":"MORTERO 1:4|M3"},
+ {"grupo":"MANO_OBRA","descripcion":"Cuadrilla 1 oficial + 1 ayudante","unidad":"Día","cantidad":0.08,"precio":200000,"porcentaje":false,"insumo":"CUADRILLA 1 OF + 1 AY|DIA"}]}
+]

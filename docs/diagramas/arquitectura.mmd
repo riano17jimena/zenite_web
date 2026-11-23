@@ -1,0 +1,9 @@
+flowchart LR
+  V["Visitante<br/>(navegador)"] -->|HTTPS| N["Sitio público<br/>Netlify<br/>HTML, CSS, JS, Bootstrap"]
+  N -->|"fetch /api/publico/*<br/>(CORS)"| R
+  A["Arquitecto / Editor<br/>(navegador)"] -->|"HTTPS · cookie de sesión<br/>/panel"| R["API + Panel<br/>Render<br/>Node.js 20 · Express · Prisma"]
+  R -->|"SQL (pooler)"| DB[("PostgreSQL<br/>Supabase")]
+  R -->|"REST · service_role"| ST[("Supabase Storage<br/>fotos WebP y videos")]
+  N -.->|"imágenes y videos"| ST
+  R -->|"SMTP"| G["Gmail<br/>zeniteark@gmail.com"]
+  GH["GitHub Actions<br/>respaldo semanal"] -->|pg_dump| DB

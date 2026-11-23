@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="es-CO">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Urbanismo y Territorio · Zenite Arquitectura</title>
+  <meta name="description" content="Planeación de barrios, loteos y espacio público. Estudiamos el territorio y la norma para proponer desarrollos ordenados, viables y con buena calidad de vida.">
+  <meta name="theme-color" content="#0B2A45">
+  <link rel="icon" href="../assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,500;0,600;1,500&family=Poppins:wght@300;400;500;600&display=swap">
+  <link rel="stylesheet" href="../vendor/bootstrap/bootstrap.min.css">
+  <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+  <a class="saltar-contenido" href="#contenido">Saltar al contenido principal</a>
+  <svg class="d-none" aria-hidden="true" focusable="false"><symbol id="isotipo" viewBox="0 0 100 100"><g fill="none" stroke="currentColor" stroke-width="4.5" stroke-linecap="round"><path d="M40.68 15.23A36 36 0 1 1 18.82 68.00"/><path d="M57.51 21.99A29 29 0 1 1 40.08 77.25"/><path d="M65.56 34.44A22 22 0 0 1 57.52 70.67"/></g><circle cx="46" cy="50" r="12" fill="var(--color-punto, #E3A72F)"/></symbol></svg>
+
+  <!-- RF-02 · Encabezado fijo con menú lateral -->
+  <header class="encabezado encabezado--solido" data-encabezado>
+    <div class="container encabezado__barra">
+      <a class="marca " href="../index.html" aria-label="Zenite Arquitectura, ir al inicio"><svg class="marca__isotipo" viewBox="0 0 100 100" aria-hidden="true" focusable="false"><use href="#isotipo"></use></svg><span class="marca__texto" aria-hidden="true"><span class="marca__nombre">Zenite</span><span class="marca__sub">Arquitectura</span></span></a>
+      <div class="encabezado__acciones">
+        <a class="btn btn-acento encabezado__cotizar" href="../index.html#simulador">Cotiza tu proyecto</a>
+        <button class="btn-menu" type="button" data-bs-toggle="offcanvas" data-bs-target="#panel-menu"
+                aria-controls="panel-menu" aria-expanded="false">
+          <span class="btn-menu__texto">Menú</span>
+          <span class="btn-menu__icono" aria-hidden="true"><span></span><span></span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <div class="offcanvas offcanvas-end panel-menu" tabindex="-1" id="panel-menu" aria-labelledby="panel-menu-titulo">
+    <div class="container panel-menu__cabecera">
+      <a class="marca marca--clara" href="../index.html" aria-label="Zenite Arquitectura, ir al inicio"><svg class="marca__isotipo" viewBox="0 0 100 100" aria-hidden="true" focusable="false"><use href="#isotipo"></use></svg><span class="marca__texto" aria-hidden="true"><span class="marca__nombre">Zenite</span><span class="marca__sub">Arquitectura</span></span></a>
+      <h2 class="visually-hidden" id="panel-menu-titulo">Menú de navegación</h2>
+      <button type="button" class="btn-menu btn-menu--cerrar" data-bs-dismiss="offcanvas">
+        <span class="btn-menu__texto">Cerrar</span><span class="btn-menu__x" aria-hidden="true">✕</span>
+      </button>
+    </div>
+    <div class="offcanvas-body">
+      <div class="container panel-menu__cuerpo">
+        <nav id="panel-menu-nav" aria-label="Secciones del sitio">
+          <ol class="panel-menu__lista">
+            <li><a class="nav-link panel-menu__enlace" href="../index.html#inicio" data-menu-enlace><span class="panel-menu__num" aria-hidden="true">01</span>Inicio</a></li>
+            <li><a class="nav-link panel-menu__enlace" href="../index.html#servicios" data-menu-enlace><span class="panel-menu__num" aria-hidden="true">02</span>Servicios</a></li>
+            <li><a class="nav-link panel-menu__enlace" href="../index.html#portafolio" data-menu-enlace><span class="panel-menu__num" aria-hidden="true">03</span>Portafolio</a></li>
+            <li><a class="nav-link panel-menu__enlace" href="../index.html#proceso" data-menu-enlace><span class="panel-menu__num" aria-hidden="true">04</span>Proceso</a></li>
+            <li><a class="nav-link panel-menu__enlace" href="../index.html#nosotros" data-menu-enlace><span class="panel-menu__num" aria-hidden="true">05</span>Nosotros</a></li>
+            <li><a class="nav-link panel-menu__enlace" href="../index.html#simulador" data-menu-enlace><span class="panel-menu__num" aria-hidden="true">06</span>Simulador</a></li>
+            <li><a class="nav-link panel-menu__enlace" href="../index.html#contacto" data-menu-enlace><span class="panel-menu__num" aria-hidden="true">07</span>Contacto</a></li>
+          </ol>
+        </nav>
+        <div class="panel-menu__contacto">
+          <p class="panel-menu__frase">Tu idea, nuestro diseño, el futuro de todos.</p>
+          <dl>
+            <div><dt>WhatsApp</dt><dd><a href="https://wa.me/573157110946" rel="noopener" target="_blank">315 711 0946<span class="visually-hidden"> (se abre en una pestaña nueva)</span></a></dd></div>
+            <div><dt>Correo</dt><dd><a href="mailto:zeniteark@gmail.com">zeniteark@gmail.com</a></dd></div>
+            <div><dt>Instagram</dt><dd><a href="https://www.instagram.com/zenitearquitectura/" rel="noopener" target="_blank">@zenitearquitectura<span class="visually-hidden"> (se abre en una pestaña nueva)</span></a></dd></div>
+          </dl>
+          <a class="btn btn-acento btn-lg" href="../index.html#simulador" data-menu-enlace>Cotiza tu proyecto</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <main id="contenido">
+    <div class="cabecera-interna">
+      <div class="container">
+        <nav class="migas" aria-label="Ruta de navegación"><ol><li><a href="../index.html">Inicio</a></li><li><a href="../index.html#servicios">Servicios</a></li><li aria-current="page">Urbanismo y territorio</li></ol></nav>
+      </div>
+    </div>
+    <section class="seccion-intro" aria-labelledby="titulo-pagina">
+      <div class="container">
+        <p class="antetitulo">Tipo de proyecto 07</p>
+        <h1 id="titulo-pagina" class="titulo-pagina">Urbanismo y Territorio</h1>
+        <p class="texto-guia">Planeación de barrios, loteos y espacio público. Estudiamos el territorio y la norma para proponer desarrollos ordenados, viables y con buena calidad de vida.</p>
+        <div class="acciones mt-4">
+          <a class="btn btn-acento btn-lg" href="../index.html?tipo=urbanismo#simulador">Cotizar este tipo de proyecto</a>
+          <a class="btn btn-contorno btn-lg" href="../index.html#contacto">Hablar con un arquitecto</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="seccion" aria-labelledby="incluye-titulo">
+      <div class="container">
+        <div class="row g-4 g-lg-5">
+          <div class="col-lg-6">
+            <h2 id="incluye-titulo" class="titulo-seccion">Proyectos que diseñamos</h2>
+            <ul class="lista-marcada">
+              <li>Zona urbanística (planificación de un nuevo barrio o sector)</li>
+              <li>Loteo y parcelación (división de un terreno grande en lotes más pequeños)</li>
+              <li>Plan de Ordenamiento Territorial (POT) o planes parciales</li>
+              <li>Diseño de espacio público (andenes, ciclorrutas, alamedas)</li>
+            </ul>
+          </div>
+          <div class="col-lg-6">
+            <h2 class="titulo-seccion">Cómo te ayudamos</h2>
+            <ul class="lista-marcada">
+              <li><strong>Análisis y Consultoría:</strong> Estudio del predio, de la norma y de tus necesidades; anteproyecto, diseño arquitectónico e interiores, trámite de licencia e interventoría.</li>
+              <li><strong>Construcción:</strong> Presupuesto de obra por actividades con precios unitarios actualizados y ejecución con control de calidad hasta la entrega.</li>
+              <li><strong>Financiera y Costos:</strong> Presupuesto paramétrico y detallado, factibilidad, cronograma de inversión y control de costos durante la obra.</li>
+            </ul>
+            <h3 class="subtitulo-seccion">Qué documentos te pediremos</h3>
+            <ul class="lista-marcada">
+              <li>Documentos del predio o del área de estudio.</li>
+              <li>Plan de Ordenamiento Territorial (POT) del municipio y normas vigentes.</li>
+              <li>Levantamiento topográfico y estudios existentes.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="seccion seccion-crema" aria-labelledby="cta-titulo">
+      <div class="container">
+        <h2 id="cta-titulo" class="titulo-seccion">¿Quieres saber cuánto costaría?</h2>
+        <p class="texto-guia">Usa el cotizador para armar tu cotización con precios de nuestra base, o escríbenos y te preparamos una propuesta formal.</p>
+        <div class="acciones">
+          <a class="btn btn-noche btn-lg" href="../index.html?tipo=urbanismo#simulador">Abrir el cotizador</a>
+          <a class="btn btn-contorno btn-lg" href="../index.html#servicios">Ver otros tipos de proyecto</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="pie">
+    <div class="container">
+      <div class="row g-4">
+        <div class="col-lg-4">
+          <a class="marca marca--clara" href="../index.html" aria-label="Zenite Arquitectura, ir al inicio"><svg class="marca__isotipo" viewBox="0 0 100 100" aria-hidden="true" focusable="false"><use href="#isotipo"></use></svg><span class="marca__texto" aria-hidden="true"><span class="marca__nombre">Zenite</span><span class="marca__sub">Arquitectura</span></span></a>
+          <p class="pie__frase">Diseñamos espacios que inspiran y conectan con tu vida.</p>
+        </div>
+        <nav class="col-6 col-md-4 col-lg-2" aria-label="Secciones">
+          <h2 class="pie__titulo">Secciones</h2>
+          <ul class="pie__lista">
+            <li><a href="../index.html#inicio">Inicio</a></li>
+            <li><a href="../index.html#servicios">Servicios</a></li>
+            <li><a href="../index.html#portafolio">Portafolio</a></li>
+            <li><a href="../index.html#proceso">Proceso</a></li>
+            <li><a href="../index.html#nosotros">Nosotros</a></li>
+            <li><a href="../index.html#simulador">Simulador</a></li>
+            <li><a href="../index.html#contacto">Contacto</a></li>
+          </ul>
+        </nav>
+        <nav class="col-6 col-md-4 col-lg-3" aria-label="Servicios">
+          <h2 class="pie__titulo">Servicios</h2>
+          <ul class="pie__lista">
+            <li><a href="../servicios/residencial.html">Residencial</a></li>
+            <li><a href="../servicios/comercial.html">Comercial y de negocios</a></li>
+            <li><a href="../servicios/dotacional.html">Dotacional e institucional</a></li>
+            <li><a href="../servicios/recreativo.html">Recreativo y deportivo</a></li>
+            <li><a href="../servicios/industrial.html">Industrial y logística</a></li>
+            <li><a href="../servicios/intervenciones.html">Intervenciones sobre lo existente</a></li>
+            <li><a href="../servicios/urbanismo.html">Urbanismo y territorio</a></li>
+          </ul>
+        </nav>
+        <div class="col-md-4 col-lg-3">
+          <h2 class="pie__titulo">Contacto</h2>
+          <ul class="pie__lista">
+            <li><a href="https://wa.me/573157110946" rel="noopener" target="_blank">WhatsApp 315 711 0946<span class="visually-hidden"> (se abre en una pestaña nueva)</span></a></li>
+            <li><a href="https://www.instagram.com/zenitearquitectura/" rel="noopener" target="_blank">Instagram<span class="visually-hidden"> (se abre en una pestaña nueva)</span></a></li>
+            <li><a href="mailto:zeniteark@gmail.com">zeniteark@gmail.com</a></li>
+            <li><a href="../politica-de-datos.html">Política de tratamiento de datos</a></li>
+          </ul>
+        </div>
+      </div>
+      <p class="pie__legal">© <span data-anio>2026</span> Zenite Arquitectura SAS. Los valores del simulador son referenciales y no constituyen una oferta contractual.</p>
+    </div>
+  </footer>
+
+  <!-- RF-13 · Botón flotante de WhatsApp -->
+  <a class="whatsapp-flotante" href="https://wa.me/573157110946?text=Hola%2C%20quiero%20informaci%C3%B3n%20sobre%20un%20proyecto"
+     rel="noopener" target="_blank" aria-label="Escribir por WhatsApp (se abre en una pestaña nueva)">
+    <svg viewBox="0 0 32 32" width="28" height="28" aria-hidden="true" focusable="false"><path fill="currentColor" d="M16 3a13 13 0 0 0-11.2 19.6L3 29l6.6-1.7A13 13 0 1 0 16 3zm0 23.6c-2 0-4-.6-5.7-1.6l-.4-.2-3.9 1 1-3.8-.3-.4A10.6 10.6 0 1 1 16 26.6zm5.8-7.9c-.3-.2-1.9-.9-2.2-1s-.5-.2-.7.2-.8 1-1 1.2-.4.2-.7 0a8.7 8.7 0 0 1-4.3-3.8c-.3-.6.3-.5.9-1.7.1-.2 0-.4 0-.5l-1-2.4c-.3-.6-.5-.5-.7-.5h-.6a1.2 1.2 0 0 0-.9.4 3.6 3.6 0 0 0-1.1 2.7 6.3 6.3 0 0 0 1.3 3.3 14.4 14.4 0 0 0 5.5 4.9c2 .9 2.8.9 3.8.8a3.3 3.3 0 0 0 2.2-1.5 2.7 2.7 0 0 0 .2-1.5c-.1-.2-.3-.3-.5-.4z"/></svg>
+  </a>
+
+  <script src="../vendor/bootstrap/bootstrap.bundle.min.js" defer></script>
+  <script src="../vendor/gsap/gsap.min.js" defer></script>
+  <script src="../vendor/gsap/ScrollTrigger.min.js" defer></script>
+  <script type="module" src="../js/main.js"></script>
+</body>
+</html>

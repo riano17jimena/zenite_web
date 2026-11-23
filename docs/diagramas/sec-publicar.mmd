@@ -1,0 +1,22 @@
+sequenceDiagram
+  autonumber
+  actor E as Editor
+  actor A as Administrador
+  participant P as Panel
+  participant API as API
+  participant DB as PostgreSQL
+  participant S as Sitio público
+  E->>P: Edita un proyecto, ordena o sube fotos
+  P->>API: PUT /api/admin/proyectos/:id
+  API->>DB: Guarda en el borrador + historial
+  E->>P: «Abrir vista previa»
+  P->>API: POST /api/admin/publicacion/vista-previa
+  API-->>P: Enlace firmado (30 min)
+  P->>S: Abre ?vista-previa=token
+  S->>API: GET /api/publico/contenido?vista-previa=token
+  API-->>S: Borrador
+  A->>P: «Publicar ahora»
+  P->>API: POST /api/admin/publicacion/publicar
+  API->>DB: Nueva versión (copia JSON del borrador)
+  S->>API: GET /api/publico/contenido
+  API-->>S: Versión publicada (caché 60 s)

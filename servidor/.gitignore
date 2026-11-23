@@ -1,0 +1,6 @@
+node_modules/
+.env
+medios-locales/
+respaldos/
+# Base de precios comprada (licencia de uso exclusivo): no se publica en GitHub
+prisma/datos-privados/

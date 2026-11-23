@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="es-CO">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Recuperar contraseña · Panel Zenite Web</title>
+  <link rel="icon" href="img/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="css/panel.css">
+  <script type="module" src="js/acceso.js"></script>
+</head>
+<body data-pagina="recuperar">
+  <main class="acceso" id="contenido">
+    <div class="acceso-tarjeta">
+      <div class="acceso-marca"><img src="img/favicon.svg" alt=""><span>Zenite Web · Panel</span></div>
+      <h1>Recuperar contraseña</h1>
+      <div id="mensajes"></div>
+      <p class="texto-suave">Escribe el correo con el que ingresas. Te enviaremos un enlace para crear una contraseña nueva; vence en 30 minutos.</p>
+      <form id="form-recuperar" novalidate>
+        <div class="campo" data-campo="correo">
+          <label for="correo">Correo electrónico</label>
+          <input id="correo" name="correo" type="email" autocomplete="email" required aria-required="true" aria-describedby="correo-error">
+          <span id="correo-error" class="error-campo"></span>
+        </div>
+        <button class="boton boton-primario" type="submit">Enviar enlace</button>
+      </form>
+      <p class="acceso-pie"><a href="./">Volver a ingresar</a></p>
+      <p class="acceso-pie" id="pie-demo" hidden></p>
+    </div>
+  </main>
+</body>
+</html>

@@ -1,0 +1,9 @@
+[
+{"clave":"CEMENTO GRIS 50 KG|BULTO","descripcion":"Cemento gris 50 kg","unidad":"Bulto","precio":30000,"tipo":"MATERIAL"},
+{"clave":"ARENA DE PEGA|M3","descripcion":"Arena de pega","unidad":"m3","precio":80000,"tipo":"MATERIAL"},
+{"clave":"BLOQUE N5|UN","descripcion":"Bloque N.º 5","unidad":"Un","precio":1500,"tipo":"MATERIAL"},
+{"clave":"OFICIAL|DIA","descripcion":"Oficial","unidad":"Día","precio":120000,"tipo":"MANO_OBRA"},
+{"clave":"AYUDANTE|DIA","descripcion":"Ayudante","unidad":"Día","precio":80000,"tipo":"MANO_OBRA"},
+{"clave":"CUADRILLA 1 OF + 1 AY|DIA","descripcion":"Cuadrilla 1 oficial + 1 ayudante","unidad":"Día","precio":200000,"tipo":"AUXILIAR"},
+{"clave":"MORTERO 1:4|M3","descripcion":"Mortero 1:4","unidad":"m3","precio":0,"tipo":"AUXILIAR"}
+]

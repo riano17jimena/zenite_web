@@ -1,0 +1,8 @@
+[
+{"clave":"CUADRILLA 1 OF + 1 AY|DIA","descripcion":"Cuadrilla 1 oficial + 1 ayudante","unidad":"Día","componentes":[
+ {"grupo":"MANO_OBRA","descripcion":"Oficial","unidad":"Día","cantidad":1,"precio":120000,"porcentaje":false,"insumo":"OFICIAL|DIA"},
+ {"grupo":"MANO_OBRA","descripcion":"Ayudante","unidad":"Día","cantidad":1,"precio":80000,"porcentaje":false,"insumo":"AYUDANTE|DIA"}]},
+{"clave":"MORTERO 1:4|M3","descripcion":"Mortero 1:4","unidad":"m3","componentes":[
+ {"grupo":"MATERIALES","descripcion":"Cemento gris 50 kg","unidad":"Bulto","cantidad":8,"precio":30000,"porcentaje":false,"insumo":"CEMENTO GRIS 50 KG|BULTO"},
+ {"grupo":"MATERIALES","descripcion":"Arena de pega","unidad":"m3","cantidad":1.1,"precio":80000,"porcentaje":false,"insumo":"ARENA DE PEGA|M3"}]}
+]

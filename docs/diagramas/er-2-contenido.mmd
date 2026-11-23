@@ -1,0 +1,82 @@
+erDiagram
+  MEDIO |o--o{ HERO : "ilustra"
+  PROYECTO ||--|{ IMAGEN_PROYECTO : "tiene"
+  MEDIO ||--o{ IMAGEN_PROYECTO : "se usa en"
+  MEDIO ||--o{ VIDEO : "es el archivo de"
+  MEDIO |o--o{ VIDEO : "es la portada de"
+  MEDIO |o--o{ TESTIMONIO : "foto de"
+  MEDIO |o--o{ PERFIL : "foto de"
+  MEDIO {
+    int id PK
+    enum tipo "IMAGEN | VIDEO"
+    string clave UK "ruta en Supabase Storage"
+    string url
+    string alt "obligatorio en imágenes"
+    enum estado "PROCESANDO | LISTO | ERROR"
+    json variantes "960 px, portada"
+  }
+  HERO {
+    int id PK "siempre 1"
+    string titulo
+    string texto
+    int imagen_id FK
+    string imagen_alt
+  }
+  PROYECTO {
+    int id PK
+    string titulo
+    string categoria "7 tipos"
+    string descripcion
+    bool visible
+    int orden
+  }
+  IMAGEN_PROYECTO {
+    int id PK
+    int proyecto_id FK
+    int medio_id FK
+    string alt
+    int orden
+  }
+  VIDEO {
+    int id PK
+    string titulo
+    string transcripcion
+    int archivo_id FK
+    int poster_id FK
+    bool visible
+    int orden
+  }
+  TESTIMONIO {
+    int id PK
+    string nombre
+    string proyecto
+    string comentario
+    bool autorizado "Ley 1581"
+    int foto_id FK
+    bool visible
+    int orden
+  }
+  PERFIL {
+    int id PK
+    string nombre
+    string cargo
+    string formacion
+    string trayectoria
+    int foto_id FK
+    int orden
+  }
+  PREGUNTA_FRECUENTE {
+    int id PK
+    string pregunta
+    string respuesta
+    bool visible
+    int orden
+  }
+  DATO_CONTACTO {
+    int id PK
+    enum tipo "WHATSAPP, CORREO, DIRECCION..."
+    string valor
+    string enlace
+    bool visible
+    int orden
+  }

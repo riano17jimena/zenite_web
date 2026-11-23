@@ -1,0 +1,282 @@
+{
+ "version": 0,
+ "respaldo": true,
+ "hero": {
+  "antetitulo": "Zenite Arquitectura · Colombia",
+  "titulo": "Arquitectura pensada para cómo vives",
+  "texto": "Diseñamos espacios donde la arquitectura se encuentra con el confort y el entorno. Cada detalle responde a un propósito: crear lugares para disfrutar, descansar y vivir momentos memorables.",
+  "pieImagen": "Casa campestre contemporánea · Render Zenite",
+  "imagen": {
+   "url": "assets/img/hero-casa-campestre.webp",
+   "url960": null,
+   "ancho": 1920,
+   "alto": 1044,
+   "alt": "Render de una casa campestre contemporánea de Zenite con terrazas, basamento en ladrillo y jardín al atardecer"
+  }
+ },
+ "proyectos": [
+  {
+   "id": 1,
+   "titulo": "Casa campestre contemporánea",
+   "categoria": "residencial",
+   "ubicacion": null,
+   "anio": null,
+   "area": null,
+   "descripcion": "Dos volúmenes blancos sobre un basamento en ladrillo, con terrazas abiertas al jardín, zona de fogata y pérgola de acceso. Una casa pensada para descansar y compartir al aire libre.",
+   "destacado": true,
+   "imagenes": [
+    {
+     "url": "assets/img/portafolio/casa-campestre-moderna.webp",
+     "url960": null,
+     "alt": "Render de casa campestre de dos volúmenes blancos con balcones de vidrio, basamento en ladrillo y zona de fogata sobre el césped"
+    }
+   ]
+  },
+  {
+   "id": 2,
+   "titulo": "Palacio Municipal de Otanche",
+   "categoria": "dotacional",
+   "ubicacion": "Otanche, Boyacá",
+   "anio": null,
+   "area": null,
+   "descripcion": "Edificio institucional de cuatro niveles con fachada de celosías en madera que filtran el sol y le dan identidad al espacio público del municipio.",
+   "destacado": false,
+   "imagenes": [
+    {
+     "url": "assets/img/portafolio/palacio-otanche.webp",
+     "url960": null,
+     "alt": "Render de la fachada del Palacio Municipal de Otanche, edificio de cuatro pisos con celosías de madera color miel y columna en piedra"
+    }
+   ]
+  },
+  {
+   "id": 3,
+   "titulo": "Consultorio especializado",
+   "categoria": "dotacional",
+   "ubicacion": null,
+   "anio": null,
+   "area": null,
+   "descripcion": "Diseño interior de un consultorio médico: recepción, sala de espera y oficina, con superficies claras y detalles en madera para un ambiente limpio y cálido.",
+   "destacado": false,
+   "imagenes": [
+    {
+     "url": "assets/img/portafolio/consultorio-recepcion.webp",
+     "url960": null,
+     "alt": "Render de recepción de consultorio con mueble blanco, sillas de madera y muro gris con el nombre de la profesional"
+    },
+    {
+     "url": "assets/img/portafolio/consultorio-escritorio.webp",
+     "url960": null,
+     "alt": "Render del escritorio de recepción con computador, teléfono y cuadros decorativos sobre muro blanco"
+    },
+    {
+     "url": "assets/img/portafolio/consultorio-oficina.webp",
+     "url960": null,
+     "alt": "Render de oficina de consultorio con escritorio en L, silla verde, dos sillas para pacientes y división en vidrio esmerilado"
+    }
+   ]
+  },
+  {
+   "id": 4,
+   "titulo": "Casa campestre con piscina",
+   "categoria": "residencial",
+   "ubicacion": null,
+   "anio": null,
+   "area": null,
+   "descripcion": "Vivienda de dos pisos con cubierta en teja de barro, corredores en madera, balcón perimetral y zona social con piscina y jacuzzi.",
+   "destacado": false,
+   "imagenes": [
+    {
+     "url": "assets/img/portafolio/casa-piscina-fachada.webp",
+     "url960": null,
+     "alt": "Fotografía de casa campestre de dos pisos con techo de teja de barro, balcón en madera y jardín con sendero de piedras"
+    },
+    {
+     "url": "assets/img/portafolio/casa-piscina-piscina.webp",
+     "url960": null,
+     "alt": "Fotografía de la piscina y el jacuzzi frente a la casa campestre"
+    }
+   ]
+  },
+  {
+   "id": 5,
+   "titulo": "Vivienda con terraza",
+   "categoria": "residencial",
+   "ubicacion": null,
+   "anio": null,
+   "area": null,
+   "descripcion": "Terraza con jardinera de sansevierias, muros en piedra y ventanales de piso a techo que unen el interior con el paisaje de montaña.",
+   "destacado": false,
+   "imagenes": [
+    {
+     "url": "assets/img/portafolio/vivienda-terraza.webp",
+     "url960": null,
+     "alt": "Render de terraza con baranda blanca, jardinera de sansevierias y ventanal con cortinas sobre muro de piedra"
+    },
+    {
+     "url": "assets/img/portafolio/vivienda-terraza-interior.webp",
+     "url960": null,
+     "alt": "Render del interior de la vivienda con sala y comedor de doble altura junto al ventanal de la terraza"
+    }
+   ]
+  }
+ ],
+ "videos": [
+  {
+   "id": 1,
+   "titulo": "Vivienda en ladera",
+   "etiqueta": "Recorrido 3D",
+   "descripcion": "Recorrido por una casa contemporánea de terrazas escalonadas, con piscina y jardines tropicales. Video sin narración.",
+   "transcripcion": null,
+   "duracionSeg": 11,
+   "url": "assets/video/recorrido-vivienda-ladera.mp4",
+   "poster": "assets/video/recorrido-vivienda-ladera.webp",
+   "ancho": 720,
+   "alto": 1245
+  },
+  {
+   "id": 2,
+   "titulo": "Vivienda en Santa Marta",
+   "etiqueta": "Interventoría",
+   "descripcion": "Seguimiento a la etapa final de los proyectos de vivienda Da Vinci Soriano y Palo Alto. Con subtítulos.",
+   "transcripcion": "Hoy llegamos a Santa Marta, capital del Magdalena, para acompañar dos importantes proyectos de vivienda: Da Vinci Soriano y Palo Alto, que avanzan hacia la culminación de sus obras. Desde la interventoría hacemos seguimiento a la etapa final de acabados y a la entrega de las zonas comunes, verificando la calidad de cada proceso. Seguimos trabajando para que cada familia reciba una vivienda digna y segura.",
+   "duracionSeg": 35,
+   "url": "assets/video/interventoria-santa-marta.mp4",
+   "poster": "assets/video/interventoria-santa-marta.webp",
+   "ancho": 720,
+   "alto": 1216
+  },
+  {
+   "id": 3,
+   "titulo": "Nuestras raíces",
+   "etiqueta": "Quiénes somos",
+   "descripcion": "Las manos que construyen en las regiones y la técnica que cada obra merece. Con subtítulos.",
+   "transcripcion": "Todo gran proyecto comienza con las manos de quienes conocen el valor del esfuerzo. En Zenite creemos en las regiones, en su gente y en su capacidad de construir grandes cosas. Por eso, unimos la sabiduría de nuestras raíces con la sofisticación, la técnica y la innovación que tu obra merece.",
+   "duracionSeg": 25,
+   "url": "assets/video/manifiesto-zenite.mp4",
+   "poster": "assets/video/manifiesto-zenite.webp",
+   "ancho": 720,
+   "alto": 1210
+  },
+  {
+   "id": 4,
+   "titulo": "Del boceto al proyecto",
+   "etiqueta": "Diseño",
+   "descripcion": "Bocetos a mano alzada que se transforman en la fachada de una vivienda. Video sin narración.",
+   "transcripcion": null,
+   "duracionSeg": 17,
+   "url": "assets/video/del-boceto-al-proyecto.mp4",
+   "poster": "assets/video/del-boceto-al-proyecto.webp",
+   "ancho": 720,
+   "alto": 1194
+  }
+ ],
+ "testimonios": [
+  {
+   "id": 1,
+   "nombre": "Cliente de ejemplo",
+   "proyecto": "Casa campestre · ejemplo provisional",
+   "ciudad": null,
+   "comentario": "No sabíamos por dónde empezar con el lote. Nos explicaron qué podíamos construir y diseñaron una casa que se ajustó a nuestro presupuesto.",
+   "foto": null
+  },
+  {
+   "id": 2,
+   "nombre": "Cliente de ejemplo",
+   "proyecto": "Proyecto hospitalario · ejemplo provisional",
+   "ciudad": null,
+   "comentario": "El diseño del consultorio cumplió los requisitos de habilitación y el espacio quedó cálido para los pacientes.",
+   "foto": null
+  },
+  {
+   "id": 3,
+   "nombre": "Cliente de ejemplo",
+   "proyecto": "Remodelación · ejemplo provisional",
+   "ciudad": null,
+   "comentario": "Remodelamos el primer piso sin mudarnos. Cada paso estuvo claro y los planos salieron a tiempo para la licencia.",
+   "foto": null
+  }
+ ],
+ "preguntas": [
+  {
+   "id": 1,
+   "pregunta": "¿Para qué necesito un arquitecto si ya tengo un maestro de obra?",
+   "respuesta": "El maestro de obra construye; el arquitecto decide qué se construye y cómo, para que cumpla la norma, sea seguro y aproveche bien el espacio. Además, los planos firmados por un arquitecto son necesarios para pedir la licencia de construcción."
+  },
+  {
+   "id": 2,
+   "pregunta": "¿Qué es una licencia de construcción y cuándo la necesito?",
+   "respuesta": "Es el permiso que da la curaduría urbana o la oficina de planeación del municipio para construir, ampliar o modificar una edificación. La necesitas para obra nueva, ampliaciones y cambios en la estructura o la fachada. Nosotros preparamos los planos y documentos para tramitarla."
+  },
+  {
+   "id": 3,
+   "pregunta": "¿El valor del simulador es el precio final?",
+   "respuesta": "No. Es un valor de referencia calculado con los servicios, actividades y cantidades que elegiste. El precio final depende del estado del inmueble, la ubicación, los diseños definitivos y la complejidad del proyecto, y te lo damos en una cotización formal."
+  },
+  {
+   "id": 4,
+   "pregunta": "¿El simulador incluye la construcción?",
+   "respuesta": "Sí. En la pestaña «Construcción» puedes elegir actividades de obra, como cimentación, mampostería, instalaciones o acabados, con sus cantidades. El valor incluye administración, imprevistos y utilidad. Si todavía no conoces las cantidades, cotiza solo el análisis y te ayudamos a calcularlas."
+  },
+  {
+   "id": 5,
+   "pregunta": "¿Cuánto tiempo toma el diseño?",
+   "respuesta": "Depende del tamaño del proyecto. Un estudio de planos suele tomar una o dos semanas, y el diseño de una casa, entre cuatro y ocho semanas. En la primera reunión te damos un cronograma para tu caso."
+  },
+  {
+   "id": 6,
+   "pregunta": "¿Trabajan fuera de Tunja?",
+   "respuesta": "Sí. Tenemos sede en Tunja y dirigimos proyectos en distintas ciudades del país. Algunas reuniones se hacen en línea y programamos visitas al inmueble cuando el proyecto lo requiere."
+  }
+ ],
+ "contactos": [
+  {
+   "tipo": "WHATSAPP",
+   "etiqueta": "WhatsApp",
+   "valor": "315 711 0946",
+   "enlace": "https://wa.me/573157110946"
+  },
+  {
+   "tipo": "CORREO",
+   "etiqueta": "Correo",
+   "valor": "zeniteark@gmail.com",
+   "enlace": "mailto:zeniteark@gmail.com"
+  },
+  {
+   "tipo": "INSTAGRAM",
+   "etiqueta": "Instagram",
+   "valor": "@zenitearquitectura",
+   "enlace": "https://www.instagram.com/zenitearquitectura/"
+  },
+  {
+   "tipo": "DIRECCION",
+   "etiqueta": "Dirección",
+   "valor": "Calle 24 # 12-51, Tunja, Boyacá",
+   "enlace": null
+  },
+  {
+   "tipo": "HORARIO",
+   "etiqueta": "Horario",
+   "valor": "Lunes a viernes, 8:00 a. m. a 6:00 p. m.",
+   "enlace": null
+  }
+ ],
+ "perfiles": [
+  {
+   "nombre": "Daniel Camilo Brand Peña",
+   "cargo": "Fundador y gerente",
+   "lema": "Tu idea, nuestro diseño, el futuro de todos",
+   "mision": "Nuestra misión es acompañar a familias y empresas en cada decisión de su proyecto, explicando en lenguaje sencillo lo que se puede construir, cuánto cuesta y qué sigue, para que diseñar no sea un trámite confuso sino una decisión informada.",
+   "formacion": "Arquitecto egresado de la Universidad Santo Tomás (2014).",
+   "trayectoria": "Desde 2015 en diseño y obra de vivienda unifamiliar y multifamiliar, e infraestructura social y hospitalaria.",
+   "experiencia": "Dirección de proyectos de arquitectura a nivel nacional.",
+   "foto": {
+    "url": "assets/img/arquitecto.webp",
+    "url960": null,
+    "ancho": 900,
+    "alto": 1080,
+    "alt": "Retrato del arquitecto Daniel Camilo Brand Peña, fundador y gerente de Zenite Arquitectura"
+   }
+  }
+ ]
+}

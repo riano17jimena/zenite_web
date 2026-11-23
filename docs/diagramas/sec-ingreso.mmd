@@ -1,0 +1,22 @@
+sequenceDiagram
+  autonumber
+  actor U as Administrador o editor
+  participant P as Panel
+  participant API as API (acceso)
+  participant DB as PostgreSQL
+  participant M as Correo
+  U->>P: Correo y contraseña
+  P->>API: POST /api/auth/ingresar
+  API->>DB: Busca usuario y compara con scrypt
+  alt Contraseña incorrecta
+    API->>DB: intentos_fallidos + 1
+    API-->>P: 401 (quedan N intentos) · al 5.º: 423 bloqueo 15 min + correo
+  else Correcta
+    API->>DB: Guarda desafío y hash del código (10 min)
+    API->>M: Código de 6 números
+    API-->>P: {desafio, correo oculto}
+    U->>P: Escribe el código
+    P->>API: POST /api/auth/verificar
+    API->>DB: Valida código (máx. 5 intentos) y crea sesión
+    API-->>P: Cookie HttpOnly, Secure, SameSite=Strict (8 h)
+  end

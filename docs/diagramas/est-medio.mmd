@@ -1,0 +1,12 @@
+stateDiagram-v2
+  [*] --> Validando: Subir archivo
+  Validando --> Rechazado: Formato no permitido, >10 MB (foto), >50 MB (video) o foto sin texto alternativo
+  Validando --> Listo: Foto convertida a WebP (1920 y 960 px)
+  Validando --> Procesando: Video recibido
+  Procesando --> Listo: Comprimido a H.264 + portada
+  Procesando --> Error: Falla de compresión
+  Listo --> EnUso: Se asigna a una sección
+  EnUso --> Listo: Se quita de la sección
+  Listo --> [*]: Eliminar
+  Rechazado --> [*]
+  Error --> [*]

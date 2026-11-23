@@ -1,0 +1,923 @@
+<!doctype html>
+<html lang="es-CO">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Zenite Arquitectura</title>
+  <meta name="description" content="Zenite Arquitectura SAS, Tunja: análisis y consultoría, construcción y gestión financiera y de costos para proyectos residenciales, comerciales, institucionales, recreativos, industriales, intervenciones y urbanismo. Simula tu cotización.">
+  <meta name="theme-color" content="#0B2A45">
+  <!-- Dirección de la API (Render) que entrega el contenido del panel y el cotizador -->
+  <meta name="zenite-api" content="https://zenite-api.onrender.com">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Zenite Arquitectura · Arquitectura pensada para cómo vives">
+  <meta property="og:description" content="Diseñamos espacios donde la arquitectura se encuentra con el confort y el entorno. Simula tu cotización en minutos.">
+  <meta property="og:image" content="assets/img/hero-casa-campestre.webp">
+  <meta property="og:locale" content="es_CO">
+  <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,500;0,600;1,500&family=Poppins:wght@300;400;500;600&display=swap">
+  <link rel="preload" as="image" href="assets/img/hero-casa-campestre.webp" imagesrcset="assets/img/hero-casa-campestre-1280.webp 1280w, assets/img/hero-casa-campestre.webp 1920w" imagesizes="(max-aspect-ratio: 46/25) 184vh, 100vw" type="image/webp">
+
+  <link rel="stylesheet" href="vendor/bootstrap/bootstrap.min.css">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body class="pagina-inicio" data-bs-spy="scroll" data-bs-target="#panel-menu-nav" data-bs-root-margin="0px 0px -55%">
+<!-- @encabezado -->
+  <a class="saltar-contenido" href="#contenido">Saltar al contenido principal</a>
+  <svg class="d-none" aria-hidden="true" focusable="false"><symbol id="isotipo" viewBox="0 0 100 100"><g fill="none" stroke="currentColor" stroke-width="4.5" stroke-linecap="round"><path d="M40.68 15.23A36 36 0 1 1 18.82 68.00"/><path d="M57.51 21.99A29 29 0 1 1 40.08 77.25"/><path d="M65.56 34.44A22 22 0 0 1 57.52 70.67"/></g><circle cx="46" cy="50" r="12" fill="var(--color-punto, #E3A72F)"/></symbol></svg>
+
+  <!-- RF-02 · Encabezado fijo con menú lateral -->
+  <header class="encabezado encabezado--superpuesto" data-encabezado>
+    <div class="container encabezado__barra">
+      <a class="marca " href="index.html" aria-label="Zenite Arquitectura, ir al inicio"><svg class="marca__isotipo" viewBox="0 0 100 100" aria-hidden="true" focusable="false"><use href="#isotipo"></use></svg><span class="marca__texto" aria-hidden="true"><span class="marca__nombre">Zenite</span><span class="marca__sub">Arquitectura</span></span></a>
+      <div class="encabezado__acciones">
+        <a class="btn btn-acento encabezado__cotizar" href="#simulador">Cotiza tu proyecto</a>
+        <button class="btn-menu" type="button" data-bs-toggle="offcanvas" data-bs-target="#panel-menu"
+                aria-controls="panel-menu" aria-expanded="false">
+          <span class="btn-menu__texto">Menú</span>
+          <span class="btn-menu__icono" aria-hidden="true"><span></span><span></span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <div class="offcanvas offcanvas-end panel-menu" tabindex="-1" id="panel-menu" aria-labelledby="panel-menu-titulo">
+    <div class="container panel-menu__cabecera">
+      <a class="marca marca--clara" href="index.html" aria-label="Zenite Arquitectura, ir al inicio"><svg class="marca__isotipo" viewBox="0 0 100 100" aria-hidden="true" focusable="false"><use href="#isotipo"></use></svg><span class="marca__texto" aria-hidden="true"><span class="marca__nombre">Zenite</span><span class="marca__sub">Arquitectura</span></span></a>
+      <h2 class="visually-hidden" id="panel-menu-titulo">Menú de navegación</h2>
+      <button type="button" class="btn-menu btn-menu--cerrar" data-bs-dismiss="offcanvas">
+        <span class="btn-menu__texto">Cerrar</span><span class="btn-menu__x" aria-hidden="true">✕</span>
+      </button>
+    </div>
+    <div class="offcanvas-body">
+      <div class="container panel-menu__cuerpo">
+        <nav id="panel-menu-nav" aria-label="Secciones del sitio">
+          <ol class="panel-menu__lista">
+            <li><a class="nav-link panel-menu__enlace" href="#inicio" data-menu-enlace><span class="panel-menu__num" aria-hidden="true">01</span>Inicio</a></li>
+            <li><a class="nav-link panel-menu__enlace" href="#servicios" data-menu-enlace><span class="panel-menu__num" aria-hidden="true">02</span>Servicios</a></li>
+            <li><a class="nav-link panel-menu__enlace" href="#portafolio" data-menu-enlace><span class="panel-menu__num" aria-hidden="true">03</span>Portafolio</a></li>
+            <li><a class="nav-link panel-menu__enlace" href="#proceso" data-menu-enlace><span class="panel-menu__num" aria-hidden="true">04</span>Proceso</a></li>
+            <li><a class="nav-link panel-menu__enlace" href="#nosotros" data-menu-enlace><span class="panel-menu__num" aria-hidden="true">05</span>Nosotros</a></li>
+            <li><a class="nav-link panel-menu__enlace" href="#simulador" data-menu-enlace><span class="panel-menu__num" aria-hidden="true">06</span>Simulador</a></li>
+            <li><a class="nav-link panel-menu__enlace" href="#contacto" data-menu-enlace><span class="panel-menu__num" aria-hidden="true">07</span>Contacto</a></li>
+          </ol>
+        </nav>
+        <div class="panel-menu__contacto">
+          <p class="panel-menu__frase">Tu idea, nuestro diseño, el futuro de todos.</p>
+          <dl>
+            <div><dt>WhatsApp</dt><dd><a href="https://wa.me/573157110946" rel="noopener" target="_blank">315 711 0946<span class="visually-hidden"> (se abre en una pestaña nueva)</span></a></dd></div>
+            <div><dt>Correo</dt><dd><a href="mailto:zeniteark@gmail.com">zeniteark@gmail.com</a></dd></div>
+            <div><dt>Instagram</dt><dd><a href="https://www.instagram.com/zenitearquitectura/" rel="noopener" target="_blank">@zenitearquitectura<span class="visually-hidden"> (se abre en una pestaña nueva)</span></a></dd></div>
+          </dl>
+          <a class="btn btn-acento btn-lg" href="#simulador" data-menu-enlace>Cotiza tu proyecto</a>
+        </div>
+      </div>
+    </div>
+  </div>
+<!-- /@encabezado -->
+
+  <main id="contenido">
+
+    <!-- RF-01 · Hero a pantalla completa -->
+    <section id="inicio" class="hero" aria-labelledby="hero-titulo">
+      <img class="hero__fondo" src="assets/img/hero-casa-campestre.webp"
+           srcset="assets/img/hero-casa-campestre-1280.webp 1280w, assets/img/hero-casa-campestre.webp 1920w" sizes="(max-aspect-ratio: 46/25) 184vh, 100vw"
+           width="1920" height="1044" fetchpriority="high" decoding="async"
+           alt="Render de una casa campestre contemporánea de Zenite con terrazas, basamento en ladrillo y jardín al atardecer">
+      <div class="hero__capa" aria-hidden="true"></div>
+      <div class="container hero__contenido">
+        <p class="antetitulo antetitulo--claro" data-hero-entrada><span class="antetitulo__num">01</span> Zenite Arquitectura · Colombia</p>
+        <h1 id="hero-titulo" class="hero__titulo" data-hero-entrada>Arquitectura pensada para cómo vives</h1>
+        <p class="hero__texto" data-hero-entrada>
+          Diseñamos espacios donde la arquitectura se encuentra con el confort y el entorno.
+          Cada detalle responde a un propósito: crear lugares para disfrutar, descansar y vivir momentos memorables.
+        </p>
+        <div class="hero__acciones" data-hero-entrada>
+          <a class="btn btn-acento btn-lg" href="#servicios">Conoce nuestros servicios</a>
+          <a class="btn btn-claro btn-lg" href="#simulador">Simula tu cotización</a>
+        </div>
+      </div>
+      <p class="hero__pie container">
+        <span>Casa campestre contemporánea · Render Zenite</span>
+        <a class="hero__bajar" href="#estudio">Desliza para conocernos<span class="hero__bajar-linea" aria-hidden="true"></span></a>
+      </p>
+    </section>
+
+    <!-- Presentación con contadores (RF-09) -->
+    <section id="estudio" class="seccion" aria-labelledby="estudio-titulo">
+      <div class="container">
+        <div class="row g-4 g-lg-5 align-items-end">
+          <div class="col-lg-7" data-revelar>
+            <p class="antetitulo">El estudio</p>
+            <h2 id="estudio-titulo" class="titulo-seccion">Tu idea puede convertirse en el espacio que siempre imaginaste</h2>
+          </div>
+          <div class="col-lg-5" data-revelar>
+            <p class="texto-guia">
+              En Zenite Arquitectura diseñamos proyectos que combinan estética, funcionalidad y técnica para crear
+              espacios pensados para vivir, disfrutar y construir a futuro. Desde el diseño arquitectónico y los interiores
+              hasta la ingeniería civil y la ejecución de proyectos, hacemos que cada detalle tenga un propósito.
+            </p>
+          </div>
+        </div>
+        <ul class="contadores" aria-label="Zenite en cifras" data-revelar>
+          <li class="contador">
+            <span class="contador__numero"><span data-contador="40">40</span>+</span>
+            <span class="contador__etiqueta">proyectos diseñados</span>
+          </li>
+          <li class="contador">
+            <span class="contador__numero"><span data-contador-desde="2015">11</span></span>
+            <span class="contador__etiqueta">años de experiencia</span>
+          </li>
+          <li class="contador">
+            <span class="contador__numero"><span data-contador="7">7</span></span>
+            <span class="contador__etiqueta">tipos de proyecto</span>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- RF-03, RF-04 · Servicios por tipo de proyecto -->
+    <section id="servicios" class="seccion seccion-crema" aria-labelledby="servicios-titulo">
+      <div class="container">
+        <header class="encabezado-seccion" data-revelar>
+          <p class="antetitulo"><span class="antetitulo__num">02</span> Servicios</p>
+          <h2 id="servicios-titulo" class="titulo-seccion">¿Qué hacemos por ti?</h2>
+          <p class="texto-guia">Tres líneas de servicio que puedes contratar por separado o combinar, desde la primera idea hasta la entrega de la obra.</p>
+        </header>
+
+        <dl class="servicios-base" data-revelar>
+          <div class="servicio-base">
+            <dt>Análisis y Consultoría</dt>
+            <dd>Antes de invertir, estudiamos tu lote o inmueble, la norma urbana (POT), el suelo y lo que necesitas. Te decimos qué se puede construir, qué permisos requieres y cuál es la mejor ruta; luego desarrollamos el anteproyecto, el diseño arquitectónico y de interiores, el trámite de la licencia y la interventoría.</dd>
+          </div>
+          <div class="servicio-base">
+            <dt>Construcción</dt>
+            <dd>Ejecutamos la obra con un presupuesto detallado por actividades —preliminares, cimentación, estructura, mampostería, instalaciones y acabados— basado en análisis de precios unitarios actualizados, con control de calidad y seguimiento hasta la entrega.</dd>
+          </div>
+          <div class="servicio-base">
+            <dt>Financiera y Costos</dt>
+            <dd>Te ayudamos a decidir con números claros: presupuesto paramétrico y detallado, estudio de factibilidad, cronograma de obra e inversión, comparación de propuestas de contratistas y control de costos durante la ejecución.</dd>
+          </div>
+        </dl>
+
+        <h3 class="subtitulo-seccion" data-revelar>Elige tu proyecto</h3>
+        <ol class="tipos tipos--siete" role="list">
+          <li class="tipo" data-revelar>
+            <span class="tipo__numero" aria-hidden="true">01</span>
+            <h4 class="tipo__titulo"><a class="stretched-link" href="servicios/residencial.html">Residencial (Vivienda)</a></h4>
+            <p class="tipo__texto">Casas, edificios de apartamentos, conjuntos cerrados, vivienda VIS y VIP, residencias y casas de campo.</p>
+            <span class="tipo__flecha" aria-hidden="true">→</span>
+          </li>
+          <li class="tipo" data-revelar>
+            <span class="tipo__numero" aria-hidden="true">02</span>
+            <h4 class="tipo__titulo"><a class="stretched-link" href="servicios/comercial.html">Comercial y de Negocios</a></h4>
+            <p class="tipo__texto">Locales, oficinas y sedes corporativas, centros comerciales, restaurantes, hoteles, glamping y estaciones de servicio.</p>
+            <span class="tipo__flecha" aria-hidden="true">→</span>
+          </li>
+          <li class="tipo" data-revelar>
+            <span class="tipo__numero" aria-hidden="true">03</span>
+            <h4 class="tipo__titulo"><a class="stretched-link" href="servicios/dotacional.html">Dotacional e Institucional</a></h4>
+            <p class="tipo__texto">Hospitales y consultorios, colegios y universidades, bibliotecas, teatros, sedes de gobierno, terminales y templos.</p>
+            <span class="tipo__flecha" aria-hidden="true">→</span>
+          </li>
+          <li class="tipo" data-revelar>
+            <span class="tipo__numero" aria-hidden="true">04</span>
+            <h4 class="tipo__titulo"><a class="stretched-link" href="servicios/recreativo.html">Recreativo y Deportivo</a></h4>
+            <p class="tipo__texto">Parques y plazas, complejos deportivos, gimnasios y clubes, centros acuáticos y parques temáticos.</p>
+            <span class="tipo__flecha" aria-hidden="true">→</span>
+          </li>
+          <li class="tipo" data-revelar>
+            <span class="tipo__numero" aria-hidden="true">05</span>
+            <h4 class="tipo__titulo"><a class="stretched-link" href="servicios/industrial.html">Industrial y Logística</a></h4>
+            <p class="tipo__texto">Bodegas y centros de distribución, naves industriales, parques industriales y plantas de tratamiento.</p>
+            <span class="tipo__flecha" aria-hidden="true">→</span>
+          </li>
+          <li class="tipo" data-revelar>
+            <span class="tipo__numero" aria-hidden="true">06</span>
+            <h4 class="tipo__titulo"><a class="stretched-link" href="servicios/intervenciones.html">Intervenciones sobre lo Existente</a></h4>
+            <p class="tipo__texto">Remodelaciones, ampliaciones, restauración patrimonial y adecuación de locales por cambio de uso.</p>
+            <span class="tipo__flecha" aria-hidden="true">→</span>
+          </li>
+          <li class="tipo" data-revelar>
+            <span class="tipo__numero" aria-hidden="true">07</span>
+            <h4 class="tipo__titulo"><a class="stretched-link" href="servicios/urbanismo.html">Urbanismo y Territorio</a></h4>
+            <p class="tipo__texto">Planeación de barrios, loteo y parcelación, planes parciales y diseño de espacio público.</p>
+            <span class="tipo__flecha" aria-hidden="true">→</span>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- RF-05 · Portafolio en carrusel -->
+    <section id="portafolio" class="seccion" aria-labelledby="portafolio-titulo">
+      <div class="container">
+        <header class="encabezado-seccion encabezado-seccion--fila" data-revelar>
+          <div>
+            <p class="antetitulo"><span class="antetitulo__num">03</span> Portafolio</p>
+            <h2 id="portafolio-titulo" class="titulo-seccion">Proyectos que cobran vida</h2>
+          </div>
+          <button type="button" class="control-pausa" id="portafolio-pausa" aria-controls="portafolio-marquesina" hidden>
+            <span class="control-pausa__icono" aria-hidden="true"></span>
+            <span class="control-pausa__texto">Pausar</span>
+          </button>
+        </header>
+      </div>
+
+      <!-- La franja ocupa todo el ancho y se desplaza sola a velocidad constante.
+           Se detiene al pasar el cursor, al enfocar con el teclado o con el botón "Pausar".
+           Cada tarjeta trae flechas para pasar sus imágenes y su descripción completa. -->
+      <div class="marquesina" id="portafolio-marquesina" aria-label="Proyectos de Zenite" role="region">
+        <div class="marquesina__pista">
+          <ul class="marquesina__grupo" id="portafolio-lista" role="list" aria-busy="true">
+            <li><p class="texto-guia">Cargando proyectos…</p></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="container">
+        <noscript>
+          <p class="texto-guia">Para ver el portafolio activa JavaScript o visita nuestro
+            <a href="https://www.instagram.com/zenitearquitectura/" rel="noopener">perfil de Instagram</a>.</p>
+        </noscript>
+      </div>
+    </section>
+
+    <!-- Videos de Zenite: reproducción por clic, uno a la vez -->
+    <section id="videos" class="seccion seccion-noche" aria-labelledby="videos-titulo">
+      <div class="container">
+        <header class="encabezado-seccion encabezado-seccion--fila" data-revelar>
+          <div>
+            <p class="antetitulo">Zenite en movimiento</p>
+            <h2 id="videos-titulo" class="titulo-seccion">Mira cómo trabajamos</h2>
+            <p class="texto-guia mb-0">Recorridos, obra y diseño. Toca un video para reproducirlo con sonido.</p>
+          </div>
+          <div class="carrusel__controles" id="videos-controles" hidden>
+            <button type="button" class="control-carrusel" data-carrusel="anterior" aria-label="Video anterior"><span aria-hidden="true">←</span></button>
+            <button type="button" class="control-carrusel" data-carrusel="siguiente" aria-label="Video siguiente"><span aria-hidden="true">→</span></button>
+          </div>
+        </header>
+
+        <div class="carrusel carrusel--videos swiper" id="videos-carrusel" aria-label="Videos de Zenite">
+          <ul class="swiper-wrapper" role="list">
+            <li class="swiper-slide">
+              <figure class="video" data-video>
+                <div class="video__marco">
+                  <video class="video__medio" preload="none" playsinline poster="assets/video/recorrido-vivienda-ladera.webp"
+                         aria-describedby="video-1-texto" width="720" height="1245">
+                    <source src="assets/video/recorrido-vivienda-ladera.mp4" type="video/mp4">
+                  </video>
+                  <button type="button" class="video__reproducir" aria-label="Reproducir video: Recorrido 3D de vivienda en ladera (11 segundos)">
+                    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M8 5.5v13l10.5-6.5z" fill="currentColor"/></svg>
+                  </button>
+                  <span class="video__duracion" aria-hidden="true">0:11</span>
+                </div>
+                <figcaption class="video__texto">
+                  <span class="video__etiqueta">Recorrido 3D</span>
+                  <h3 class="video__titulo">Vivienda en ladera</h3>
+                  <p id="video-1-texto">Recorrido por una casa contemporánea de terrazas escalonadas, con piscina y jardines tropicales. Video sin narración.</p>
+                </figcaption>
+              </figure>
+            </li>
+            <li class="swiper-slide">
+              <figure class="video" data-video>
+                <div class="video__marco">
+                  <video class="video__medio" preload="none" playsinline poster="assets/video/interventoria-santa-marta.webp"
+                         aria-describedby="video-2-texto" width="720" height="1216">
+                    <source src="assets/video/interventoria-santa-marta.mp4" type="video/mp4">
+                  </video>
+                  <button type="button" class="video__reproducir" aria-label="Reproducir video: Interventoría en Santa Marta (35 segundos)">
+                    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M8 5.5v13l10.5-6.5z" fill="currentColor"/></svg>
+                  </button>
+                  <span class="video__duracion" aria-hidden="true">0:35</span>
+                </div>
+                <figcaption class="video__texto">
+                  <span class="video__etiqueta">Interventoría</span>
+                  <h3 class="video__titulo">Vivienda en Santa Marta</h3>
+                  <p id="video-2-texto">Seguimiento a la etapa final de los proyectos de vivienda Da Vinci Soriano y Palo Alto. Con subtítulos.</p>
+                  <details class="video__transcripcion">
+                    <summary>Leer la transcripción</summary>
+                    <p>Hoy llegamos a Santa Marta, capital del Magdalena, para acompañar dos importantes proyectos de vivienda: Da Vinci Soriano y Palo Alto, que avanzan hacia la culminación de sus obras. Desde la interventoría hacemos seguimiento a la etapa final de acabados y a la entrega de las zonas comunes, verificando la calidad de cada proceso. Seguimos trabajando para que cada familia reciba una vivienda digna y segura.</p>
+                  </details>
+                </figcaption>
+              </figure>
+            </li>
+            <li class="swiper-slide">
+              <figure class="video" data-video>
+                <div class="video__marco">
+                  <video class="video__medio" preload="none" playsinline poster="assets/video/manifiesto-zenite.webp"
+                         aria-describedby="video-3-texto" width="720" height="1210">
+                    <source src="assets/video/manifiesto-zenite.mp4" type="video/mp4">
+                  </video>
+                  <button type="button" class="video__reproducir" aria-label="Reproducir video: Nuestras raíces (25 segundos)">
+                    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M8 5.5v13l10.5-6.5z" fill="currentColor"/></svg>
+                  </button>
+                  <span class="video__duracion" aria-hidden="true">0:25</span>
+                </div>
+                <figcaption class="video__texto">
+                  <span class="video__etiqueta">Quiénes somos</span>
+                  <h3 class="video__titulo">Nuestras raíces</h3>
+                  <p id="video-3-texto">Las manos que construyen en las regiones y la técnica que cada obra merece. Con subtítulos.</p>
+                  <details class="video__transcripcion">
+                    <summary>Leer la transcripción</summary>
+                    <p>Todo gran proyecto comienza con las manos de quienes conocen el valor del esfuerzo. En Zenite creemos en las regiones, en su gente y en su capacidad de construir grandes cosas. Por eso, unimos la sabiduría de nuestras raíces con la sofisticación, la técnica y la innovación que tu obra merece.</p>
+                  </details>
+                </figcaption>
+              </figure>
+            </li>
+            <li class="swiper-slide">
+              <figure class="video" data-video>
+                <div class="video__marco">
+                  <video class="video__medio" preload="none" playsinline poster="assets/video/del-boceto-al-proyecto.webp"
+                         aria-describedby="video-4-texto" width="720" height="1194">
+                    <source src="assets/video/del-boceto-al-proyecto.mp4" type="video/mp4">
+                  </video>
+                  <button type="button" class="video__reproducir" aria-label="Reproducir video: Del boceto al proyecto (17 segundos)">
+                    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M8 5.5v13l10.5-6.5z" fill="currentColor"/></svg>
+                  </button>
+                  <span class="video__duracion" aria-hidden="true">0:17</span>
+                </div>
+                <figcaption class="video__texto">
+                  <span class="video__etiqueta">Diseño</span>
+                  <h3 class="video__titulo">Del boceto al proyecto</h3>
+                  <p id="video-4-texto">Bocetos a mano alzada que se transforman en la fachada de una vivienda. Video sin narración.</p>
+                </figcaption>
+              </figure>
+            </li>
+          </ul>
+        </div>
+        <div class="carrusel__paginacion carrusel__paginacion--claro" id="videos-paginacion"></div>
+      </div>
+    </section>
+
+    <!-- RF-08 · Proceso de trabajo -->
+    <section id="proceso" class="seccion seccion-crema" aria-labelledby="proceso-titulo">
+      <div class="container">
+        <header class="encabezado-seccion" data-revelar>
+          <p class="antetitulo"><span class="antetitulo__num">04</span> Proceso</p>
+          <h2 id="proceso-titulo" class="titulo-seccion">Así trabajamos contigo</h2>
+        </header>
+        <ol class="proceso proceso--detallado">
+          <li class="paso" data-revelar>
+            <h3 class="paso__titulo">Análisis del Cliente y Necesidades <span class="paso__subtitulo">(El «Briefing»)</span></h3>
+            <p>Es el punto de partida donde se define el propósito del proyecto.</p>
+            <ul class="paso__lista">
+              <li><strong>Entrevistas de requerimientos:</strong> Reuniones para entender los objetivos, visión, expectativas estéticas y dinámicas de uso del cliente.</li>
+              <li><strong>Programa de necesidades:</strong> Listado cualitativo y cuantitativo de los espacios solicitados (ej.: cuántas habitaciones, áreas comunes, zonas de servicio, flujos de circulación).</li>
+              <li><strong>Definición de alcances:</strong> Establecer si el encargo es una obra nueva, remodelación, ampliación, loteo o intervención urbana.</li>
+            </ul>
+          </li>
+          <li class="paso" data-revelar>
+            <h3 class="paso__titulo">Análisis del Sitio y del Entorno <span class="paso__subtitulo">(El Contexto Físico)</span></h3>
+            <p>Estudio profundo de las condiciones del terreno o del inmueble existente.</p>
+            <ul class="paso__lista">
+              <li><strong>Condiciones climáticas y ambientales:</strong> Estudio del asoleamiento (trayectoria del sol), vientos predominantes, pluviosidad y confort térmico.</li>
+              <li><strong>Topografía y suelo:</strong> Evaluación de pendientes, niveles del terreno y necesidad de estudios geotécnicos (resistencia del suelo).</li>
+              <li><strong>Infraestructura y servicios:</strong> Verificación de redes de servicios públicos disponibles (agua potable, alcantarillado, electricidad, gas, telecomunicaciones).</li>
+              <li><strong>Entorno urbano:</strong> Análisis de accesos viales, transporte público, flujos peatonales, contaminación auditiva y vistas del paisaje.</li>
+            </ul>
+          </li>
+          <li class="paso" data-revelar>
+            <h3 class="paso__titulo">Análisis Normativo y Legal <span class="paso__subtitulo">(El Marco Regulatorio)</span></h3>
+            <p>Establece los límites legales que condicionan obligatoriamente lo que se puede y no se puede construir.</p>
+            <ul class="paso__lista">
+              <li><strong>Uso del suelo:</strong> Verificación en los planes urbanísticos locales (como el POT) de si la tipología deseada (comercial, residencial, industrial) está permitida en esa zona.</li>
+              <li><strong>Índices de edificabilidad y ocupación:</strong> Porcentaje máximo de terreno que se puede techar y cuántos metros cuadrados totales se permiten construir.</li>
+              <li><strong>Restricciones físicas obligatorias:</strong> Alturas máximas permitidas, aislamientos (retiros frontales, posteriores y laterales con vecinos) y cupos de parqueaderos requeridos.</li>
+              <li><strong>Afectaciones especiales:</strong> Revisión de franjas de protección ambiental (ríos, humedales) o declaratorias de conservación histórica o patrimonial.</li>
+            </ul>
+          </li>
+          <li class="paso" data-revelar>
+            <h3 class="paso__titulo">Análisis de Factibilidad y Viabilidad <span class="paso__subtitulo">(Económica y Técnica)</span></h3>
+            <p>Filtro de realidad para asegurar que el proyecto se pueda ejecutar.</p>
+            <ul class="paso__lista">
+              <li><strong>Presupuesto paramétrico:</strong> Estimación preliminar del costo de la construcción por metro cuadrado, contrastándolo con el presupuesto real del cliente.</li>
+              <li><strong>Matriz de riesgos técnicos:</strong> Identificación de dificultades tempranas (ej.: necesidad de muros de contención complejos, demoliciones previas, trámites ambientales demorados).</li>
+              <li><strong>Cronograma macro:</strong> Proyección de tiempos estimados para la fase de diseño, aprobación de licencias o permisos y ejecución de obra.</li>
+            </ul>
+          </li>
+          <li class="paso" data-revelar>
+            <h3 class="paso__titulo">Síntesis y Entregable <span class="paso__subtitulo">(El Diagnóstico Final)</span></h3>
+            <p>El cierre de la fase de análisis, donde se consolida la información detectada.</p>
+            <ul class="paso__lista">
+              <li><strong>Documento de conclusiones (Dossier):</strong> Informe técnico donde el arquitecto le dice al cliente: «Esto es lo que usted quiere, esto es lo que la ley y el terreno permiten, y esta es la ruta estratégica para lograrlo».</li>
+              <li><strong>Aprobación de la línea base:</strong> Firma de conformidad mutua. A partir de este documento, el arquitecto tiene luz verde para empezar la siguiente gran fase: el Anteproyecto o Diseño Conceptual.</li>
+            </ul>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- Bases sólidas: contenido educativo tomado del carrusel de Instagram de Zenite -->
+    <section id="cimentacion" class="seccion" aria-labelledby="cimentacion-titulo">
+      <div class="container">
+        <div class="row g-4 g-lg-5 align-items-center">
+          <div class="col-md-5" data-revelar>
+            <figure class="figura-vertical">
+              <img src="assets/img/cimentacion-portada.webp" width="1004" height="1270" loading="lazy" decoding="async"
+                   alt="Portada del carrusel de Zenite: Grandes hogares comienzan con buenas bases, con una casa sobre su cimentación y el armado de acero">
+            </figure>
+          </div>
+          <div class="col-md-7" data-revelar>
+            <p class="antetitulo">Bases sólidas</p>
+            <h2 id="cimentacion-titulo" class="titulo-seccion">Todo comienza desde el suelo</h2>
+            <p class="texto-guia">
+              Antes de levantar muros, ventanas y espacios, hay un proceso fundamental que comienza desde el suelo.
+              Así se construye la cimentación de una vivienda, y por eso cada etapa es importante.
+            </p>
+            <ol class="etapas">
+              <li>Estudio del terreno</li>
+              <li>Excavación</li>
+              <li>Solado de limpieza</li>
+              <li>Colocación del acero</li>
+              <li>Vaciado de concreto</li>
+              <li>Cimentación terminada</li>
+            </ol>
+            <a class="enlace-flecha" href="https://www.instagram.com/zenitearquitectura/" rel="noopener" target="_blank">Ver el paso a paso en Instagram <span class="flecha" aria-hidden="true">→</span><span class="visually-hidden"> (se abre en una pestaña nueva)</span></a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- RF-07 · Nosotros -->
+    <section id="nosotros" class="seccion seccion-noche" aria-labelledby="nosotros-titulo">
+      <div class="container">
+        <div class="row g-4 g-lg-5 align-items-center">
+          <div class="col-md-5 col-lg-4" data-revelar>
+            <figure class="retrato">
+              <img src="assets/img/arquitecto.webp" width="900" height="1080" loading="lazy" decoding="async"
+                   alt="Retrato del arquitecto Daniel Camilo Brand Peña, fundador y gerente de Zenite Arquitectura">
+              <figcaption>Arq. Daniel Camilo Brand Peña · Fundador y gerente</figcaption>
+            </figure>
+          </div>
+          <div class="col-md-7 col-lg-8" data-revelar>
+            <p class="antetitulo antetitulo--claro"><span class="antetitulo__num">05</span> Nosotros</p>
+            <h2 id="nosotros-titulo" class="titulo-seccion">Tu idea, nuestro diseño, el futuro de todos</h2>
+            <p class="texto-guia">
+              <strong>Nuestra misión</strong> es acompañar a familias y empresas en cada decisión de su proyecto,
+              explicando en lenguaje sencillo lo que se puede construir, cuánto cuesta y qué sigue, para que
+              diseñar no sea un trámite confuso sino una decisión informada.
+            </p>
+            <h3 class="subtitulo-seccion">Daniel Camilo Brand Peña</h3>
+            <dl class="perfil">
+              <div><dt>Formación</dt><dd>Arquitecto egresado de la Universidad Santo Tomás (2014).</dd></div>
+              <div><dt>Trayectoria</dt><dd>Desde 2015 en diseño y obra de vivienda unifamiliar y multifamiliar, e infraestructura social y hospitalaria.</dd></div>
+              <div><dt>Dirección</dt><dd>Dirección de proyectos de arquitectura a nivel nacional.</dd></div>
+            </dl>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Testimonios (textos de ejemplo, provisionales) -->
+    <section id="testimonios" class="seccion" aria-labelledby="testimonios-titulo">
+      <div class="container">
+        <header class="encabezado-seccion" data-revelar>
+          <p class="antetitulo">Testimonios</p>
+          <h2 id="testimonios-titulo" class="titulo-seccion">Lo que dicen nuestros clientes</h2>
+          <p class="aviso-provisional">Textos de ejemplo. Se reemplazarán por testimonios reales con autorización de cada cliente.</p>
+        </header>
+        <ul class="testimonios" role="list">
+          <li data-revelar>
+            <figure class="testimonio">
+              <span class="etiqueta-provisional">Ejemplo provisional</span>
+              <blockquote>
+                <p>No sabíamos por dónde empezar con el lote. Nos explicaron qué podíamos construir y diseñaron una casa que se ajustó a nuestro presupuesto.</p>
+              </blockquote>
+              <figcaption><strong>Cliente de ejemplo</strong><span>Casa campestre</span></figcaption>
+            </figure>
+          </li>
+          <li data-revelar>
+            <figure class="testimonio">
+              <span class="etiqueta-provisional">Ejemplo provisional</span>
+              <blockquote>
+                <p>El diseño del consultorio cumplió los requisitos de habilitación y el espacio quedó cálido para los pacientes.</p>
+              </blockquote>
+              <figcaption><strong>Cliente de ejemplo</strong><span>Proyecto hospitalario</span></figcaption>
+            </figure>
+          </li>
+          <li data-revelar>
+            <figure class="testimonio">
+              <span class="etiqueta-provisional">Ejemplo provisional</span>
+              <blockquote>
+                <p>Remodelamos el primer piso sin mudarnos. Cada paso estuvo claro y los planos salieron a tiempo para la licencia.</p>
+              </blockquote>
+              <figcaption><strong>Cliente de ejemplo</strong><span>Remodelación</span></figcaption>
+            </figure>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- RF-16 a RF-19, RF-21 · Cotizador modular de 3 pestañas (datos de la base de precios) -->
+    <section id="simulador" class="seccion seccion-crema" aria-labelledby="simulador-titulo">
+      <div class="container">
+        <div class="row g-4 g-lg-5 align-items-center">
+          <header class="col-lg-5 encabezado-seccion" data-revelar>
+            <p class="antetitulo"><span class="antetitulo__num">06</span> Simulador</p>
+            <h2 id="simulador-titulo" class="titulo-seccion">Simula tu cotización</h2>
+            <p class="texto-guia">Arma tu cotización con los precios de nuestra base actualizada. Elige solo lo que necesitas en cualquiera de las tres pestañas: puedes cotizar únicamente la construcción, solo la consultoría o combinarlas.</p>
+            <button type="button" class="btn btn-acento btn-lg" data-abrir-cotizador aria-haspopup="dialog">Abrir el cotizador</button>
+            <p class="form-text mt-3">Valores referenciales en pesos colombianos. Al final puedes pedirnos el documento de cotización.</p>
+            <noscript><p class="texto-guia">El cotizador necesita JavaScript. Puedes escribirnos directamente en el formulario de contacto.</p></noscript>
+          </header>
+          <div class="col-lg-7" data-revelar>
+            <ol class="pestanas-resumen" role="list">
+              <li class="pestana-resumen">
+                <span class="pestana-resumen__num" aria-hidden="true">1</span>
+                <h3 class="pestana-resumen__titulo">Análisis y consultoría</h3>
+                <p>Estudios del predio y de la norma, levantamiento, anteproyecto, diseño arquitectónico e interiores, licencia e interventoría.</p>
+              </li>
+              <li class="pestana-resumen">
+                <span class="pestana-resumen__num" aria-hidden="true">2</span>
+                <h3 class="pestana-resumen__titulo">Construcción</h3>
+                <p>Más de 2.000 actividades de obra en 29 capítulos, de preliminares a acabados, con su cantidad y el AIU incluido.</p>
+              </li>
+              <li class="pestana-resumen">
+                <span class="pestana-resumen__num" aria-hidden="true">3</span>
+                <h3 class="pestana-resumen__titulo">Financiera y costos</h3>
+                <p>Presupuestos paramétricos y detallados, factibilidad, cronograma de inversión y control de costos de obra.</p>
+              </li>
+            </ol>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="modal fade cotizador" id="modal-cotizador" tabindex="-1" aria-labelledby="cotizador-titulo" aria-hidden="true">
+      <div class="modal-dialog modal-xl modal-fullscreen-lg-down modal-dialog-scrollable">
+        <div class="modal-content">
+          <div class="modal-header">
+            <div>
+              <h2 class="modal-title cotizador__titulo" id="cotizador-titulo">Cotizador Zenite</h2>
+              <p class="cotizador__paso" id="cotizador-paso">Paso 1 de 2 · Elige lo que necesitas</p>
+            </div>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar el cotizador"></button>
+          </div>
+          <div class="modal-body">
+            <div class="cotizador__estado" id="cotizador-estado" role="status" aria-live="polite"></div>
+
+            <!-- Paso 1: elegir -->
+            <div id="cotizador-elegir" hidden>
+              <div class="row g-3 cotizador__generales">
+                <div class="col-md-7">
+                  <label class="form-label" for="cot-tipo">Tipo de proyecto <span class="texto-opcional">(opcional)</span></label>
+                  <select class="form-select" id="cot-tipo"><option value="">Sin especificar</option></select>
+                </div>
+                <div class="col-md-5">
+                  <label class="form-label" for="cot-area">Área aproximada</label>
+                  <div class="input-group">
+                    <input class="form-control" id="cot-area" type="text" inputmode="decimal" autocomplete="off" aria-describedby="cot-area-ayuda cot-area-error">
+                    <span class="input-group-text">m²</span>
+                  </div>
+                  <p class="form-text" id="cot-area-ayuda">Necesaria para los servicios que se cobran por m².</p>
+                  <p class="invalid-feedback d-block" id="cot-area-error" hidden></p>
+                </div>
+              </div>
+
+              <ul class="nav nav-tabs cotizador__pestanas" role="tablist" aria-label="Partes de la cotización">
+                <li class="nav-item" role="presentation">
+                  <button class="nav-link active" id="tab-consultoria" data-bs-toggle="tab" data-bs-target="#panel-consultoria" type="button" role="tab" aria-controls="panel-consultoria" aria-selected="true">
+                    <span aria-hidden="true">1.</span> Análisis y consultoría <span class="contador-pestana" data-contador-pestana="consultoria"></span>
+                  </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                  <button class="nav-link" id="tab-construccion" data-bs-toggle="tab" data-bs-target="#panel-construccion" type="button" role="tab" aria-controls="panel-construccion" aria-selected="false" tabindex="-1">
+                    <span aria-hidden="true">2.</span> Construcción <span class="contador-pestana" data-contador-pestana="construccion"></span>
+                  </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                  <button class="nav-link" id="tab-financiera" data-bs-toggle="tab" data-bs-target="#panel-financiera" type="button" role="tab" aria-controls="panel-financiera" aria-selected="false" tabindex="-1">
+                    <span aria-hidden="true">3.</span> Financiera y costos <span class="contador-pestana" data-contador-pestana="financiera"></span>
+                  </button>
+                </li>
+              </ul>
+              <div class="tab-content cotizador__paneles">
+                <div class="tab-pane fade show active" id="panel-consultoria" role="tabpanel" aria-labelledby="tab-consultoria" tabindex="0">
+                  <fieldset>
+                    <legend class="cotizador__ayuda">Marca los servicios de análisis y consultoría que quieres cotizar.</legend>
+                    <div class="servicios-opciones" id="lista-consultoria"></div>
+                  </fieldset>
+                </div>
+                <div class="tab-pane fade" id="panel-construccion" role="tabpanel" aria-labelledby="tab-construccion" tabindex="0">
+                  <p class="cotizador__ayuda">Busca las actividades de obra que necesitas, agrégalas y escribe la cantidad de cada una. Puedes cotizar solo esta pestaña.</p>
+                  <form class="row g-2 align-items-end buscador-obra" id="form-buscar-obra" role="search" aria-label="Buscar actividades de obra" novalidate>
+                    <div class="col-md-5">
+                      <label class="form-label" for="obra-capitulo">Capítulo</label>
+                      <select class="form-select" id="obra-capitulo"><option value="">Todos los capítulos</option></select>
+                    </div>
+                    <div class="col-md-5">
+                      <label class="form-label" for="obra-buscar">Buscar actividad</label>
+                      <input class="form-control" id="obra-buscar" type="search" autocomplete="off" placeholder="Ej.: muro en bloque" aria-describedby="obra-buscar-ayuda">
+                    </div>
+                    <div class="col-md-2 d-grid">
+                      <button class="btn btn-noche" type="submit">Buscar</button>
+                    </div>
+                    <p class="form-text col-12 mt-1" id="obra-buscar-ayuda">Elige un capítulo o escribe al menos 3 letras.</p>
+                  </form>
+                  <div class="resultados-obra" id="resultados-obra" aria-live="polite"></div>
+                  <h3 class="cotizador__subtitulo" id="elegidas-titulo">Actividades elegidas</h3>
+                  <div id="elegidas-obra"></div>
+                </div>
+                <div class="tab-pane fade" id="panel-financiera" role="tabpanel" aria-labelledby="tab-financiera" tabindex="0">
+                  <fieldset>
+                    <legend class="cotizador__ayuda">Marca los servicios financieros y de costos que quieres cotizar.</legend>
+                    <div class="servicios-opciones" id="lista-financiera"></div>
+                  </fieldset>
+                </div>
+              </div>
+            </div>
+
+            <!-- Paso 2: resultado y datos de contacto -->
+            <div id="cotizador-resultado" hidden>
+              <h3 class="cotizador__subtitulo" id="resultado-titulo" tabindex="-1">Tu cotización referencial</h3>
+              <div id="resultado-cotizacion"></div>
+              <form class="formulario cotizador__formulario" id="form-cotizacion" novalidate aria-labelledby="form-cotizacion-titulo">
+                <h3 class="cotizador__subtitulo" id="form-cotizacion-titulo">Recibe la cotización formal</h3>
+                <p class="cotizador__ayuda">Déjanos tus datos y te enviamos la propuesta. Revisamos cada cotización antes de responderte.</p>
+                <p class="campo-trampa" aria-hidden="true"><label>No llenar este campo <input name="sitioWeb" tabindex="-1" autocomplete="off"></label></p>
+                <div class="row g-2 g-md-3">
+                  <div class="col-md-6">
+                    <label class="form-label" for="cot-nombre">Nombre completo <span aria-hidden="true">*</span></label>
+                    <input class="form-control" id="cot-nombre" name="nombre" type="text" autocomplete="name" required minlength="3" maxlength="80" aria-describedby="cot-nombre-error">
+                    <p class="invalid-feedback" id="cot-nombre-error">Escribe tu nombre (mínimo 3 letras).</p>
+                  </div>
+                  <div class="col-md-6">
+                    <label class="form-label" for="cot-correo">Correo electrónico <span aria-hidden="true">*</span></label>
+                    <input class="form-control" id="cot-correo" name="correo" type="email" autocomplete="email" required maxlength="120" aria-describedby="cot-correo-error">
+                    <p class="invalid-feedback" id="cot-correo-error">Escribe un correo válido, por ejemplo nombre@correo.com.</p>
+                  </div>
+                  <div class="col-md-6">
+                    <label class="form-label" for="cot-telefono">Teléfono o celular <span aria-hidden="true">*</span></label>
+                    <input class="form-control" id="cot-telefono" name="telefono" type="tel" autocomplete="tel" inputmode="tel" required aria-describedby="cot-telefono-error">
+                    <p class="invalid-feedback" id="cot-telefono-error">Escribe un número de 7 a 15 dígitos.</p>
+                  </div>
+                  <div class="col-md-6">
+                    <label class="form-label" for="cot-ciudad">Ciudad o municipio <span class="texto-opcional">(opcional)</span></label>
+                    <input class="form-control" id="cot-ciudad" name="ciudad" type="text" autocomplete="address-level2" maxlength="80">
+                  </div>
+                  <div class="col-12">
+                    <label class="form-label" for="cot-mensaje">Algo más que debamos saber <span class="texto-opcional">(opcional)</span></label>
+                    <textarea class="form-control" id="cot-mensaje" name="mensaje" rows="2" maxlength="1500"></textarea>
+                  </div>
+                  <div class="col-12">
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" id="cot-datos" name="consentimiento" required aria-describedby="cot-datos-error">
+                      <label class="form-check-label" for="cot-datos">
+                        Autorizo a Zenite Arquitectura SAS a tratar mis datos para responder esta solicitud, según la
+                        <a href="politica-de-datos.html" target="_blank" rel="noopener">política de tratamiento de datos<span class="visually-hidden"> (se abre en una pestaña nueva)</span></a> (Ley 1581 de 2012). <span aria-hidden="true">*</span>
+                      </label>
+                      <p class="invalid-feedback" id="cot-datos-error">Debes aceptar el tratamiento de datos para enviar la solicitud.</p>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+
+            <!-- Paso 3: enviado -->
+            <div id="cotizador-enviado" hidden>
+              <h3 class="cotizador__subtitulo" id="enviado-titulo" tabindex="-1">¡Recibimos tu solicitud!</h3>
+              <div id="enviado-texto"></div>
+            </div>
+          </div>
+          <div class="modal-footer cotizador__pie">
+            <p class="cotizador__seleccion" id="cotizador-seleccion" aria-live="polite"></p>
+            <button type="button" class="btn btn-contorno" id="cot-volver" hidden>Volver a editar</button>
+            <button type="button" class="btn btn-acento" id="cot-calcular" hidden>Calcular cotización</button>
+            <button type="submit" form="form-cotizacion" class="btn btn-acento" id="cot-enviar" hidden>Enviar solicitud</button>
+            <button type="button" class="btn btn-contorno" id="cot-nueva" hidden>Hacer otra cotización</button>
+            <button type="button" class="btn btn-noche" data-bs-dismiss="modal" id="cot-cerrar" hidden>Cerrar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RF-15 · Preguntas frecuentes -->
+    <section id="preguntas" class="seccion" aria-labelledby="preguntas-titulo">
+      <div class="container">
+        <div class="row g-4 g-lg-5">
+          <header class="col-lg-4 encabezado-seccion" data-revelar>
+            <p class="antetitulo">Preguntas frecuentes</p>
+            <h2 id="preguntas-titulo" class="titulo-seccion">Lo que más nos preguntan</h2>
+          </header>
+          <div class="col-lg-8" data-revelar>
+            <div class="accordion acordeon" id="acordeon-preguntas">
+              <div class="accordion-item">
+                <h3 class="accordion-header">
+                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq-1" aria-expanded="false" aria-controls="faq-1">
+                    ¿Para qué necesito un arquitecto si ya tengo un maestro de obra?
+                  </button>
+                </h3>
+                <div id="faq-1" class="accordion-collapse collapse" data-bs-parent="#acordeon-preguntas">
+                  <div class="accordion-body">El maestro de obra construye; el arquitecto decide qué se construye y cómo, para que cumpla la norma, sea seguro y aproveche bien el espacio. Además, los planos firmados por un arquitecto son necesarios para pedir la licencia de construcción.</div>
+                </div>
+              </div>
+              <div class="accordion-item">
+                <h3 class="accordion-header">
+                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq-2" aria-expanded="false" aria-controls="faq-2">
+                    ¿Qué es una licencia de construcción y cuándo la necesito?
+                  </button>
+                </h3>
+                <div id="faq-2" class="accordion-collapse collapse" data-bs-parent="#acordeon-preguntas">
+                  <div class="accordion-body">Es el permiso que da la curaduría urbana o la oficina de planeación del municipio para construir, ampliar o modificar una edificación. La necesitas para obra nueva, ampliaciones y cambios en la estructura o la fachada. Nosotros preparamos los planos y documentos para tramitarla.</div>
+                </div>
+              </div>
+              <div class="accordion-item">
+                <h3 class="accordion-header">
+                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq-3" aria-expanded="false" aria-controls="faq-3">
+                    ¿El valor del simulador es el precio final?
+                  </button>
+                </h3>
+                <div id="faq-3" class="accordion-collapse collapse" data-bs-parent="#acordeon-preguntas">
+                  <div class="accordion-body">No. Es un rango de referencia calculado con el área y los servicios que elegiste. El precio final depende del estado del inmueble, la ubicación y la complejidad del diseño, y te lo damos en una cotización formal.</div>
+                </div>
+              </div>
+              <div class="accordion-item">
+                <h3 class="accordion-header">
+                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq-4" aria-expanded="false" aria-controls="faq-4">
+                    ¿El valor incluye la construcción?
+                  </button>
+                </h3>
+                <div id="faq-4" class="accordion-collapse collapse" data-bs-parent="#acordeon-preguntas">
+                  <div class="accordion-body">No. El simulador calcula el estudio, el diseño y los planos. La construcción se cotiza aparte según el proyecto; escríbenos si quieres que te acompañemos también en la ejecución de la obra.</div>
+                </div>
+              </div>
+              <div class="accordion-item">
+                <h3 class="accordion-header">
+                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq-5" aria-expanded="false" aria-controls="faq-5">
+                    ¿Cuánto tiempo toma el diseño?
+                  </button>
+                </h3>
+                <div id="faq-5" class="accordion-collapse collapse" data-bs-parent="#acordeon-preguntas">
+                  <div class="accordion-body">Depende del tamaño del proyecto. Un estudio de planos suele tomar una o dos semanas, y el diseño de una casa, entre cuatro y ocho semanas. En la primera reunión te damos un cronograma para tu caso.</div>
+                </div>
+              </div>
+              <div class="accordion-item">
+                <h3 class="accordion-header">
+                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq-6" aria-expanded="false" aria-controls="faq-6">
+                    ¿Trabajan fuera de Bogotá?
+                  </button>
+                </h3>
+                <div id="faq-6" class="accordion-collapse collapse" data-bs-parent="#acordeon-preguntas">
+                  <div class="accordion-body">Sí. Dirigimos proyectos en distintas ciudades del país. Algunas reuniones se hacen en línea y programamos visitas al inmueble cuando el proyecto lo requiere.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- RF-10 a RF-14 · Contacto
+         En celular el orden es título → formulario → datos, para que el
+         formulario quede a la vista al llegar a la sección. -->
+    <section id="contacto" class="seccion seccion-crema" aria-labelledby="contacto-titulo">
+      <div class="container contacto">
+        <div class="contacto__intro" data-revelar>
+            <p class="antetitulo"><span class="antetitulo__num">07</span> Contacto</p>
+            <h2 id="contacto-titulo" class="titulo-seccion">Hablemos de tu proyecto</h2>
+        </div>
+        <div class="contacto__formulario" data-revelar>
+            <form class="formulario" id="form-contacto" name="contacto" novalidate>
+              <p class="campo-trampa" aria-hidden="true">
+                <label>No llenar este campo <input name="sitioWeb" tabindex="-1" autocomplete="off"></label>
+              </p>
+              <div class="row g-2 g-md-3">
+                <div class="col-md-6">
+                  <label class="form-label" for="contacto-nombre">Nombre completo <span aria-hidden="true">*</span></label>
+                  <input class="form-control" id="contacto-nombre" name="nombre" type="text" autocomplete="name"
+                         required minlength="3" maxlength="80" aria-describedby="contacto-nombre-error">
+                  <p class="invalid-feedback" id="contacto-nombre-error">Escribe tu nombre (mínimo 3 letras).</p>
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label" for="contacto-correo">Correo electrónico <span aria-hidden="true">*</span></label>
+                  <input class="form-control" id="contacto-correo" name="correo" type="email" autocomplete="email"
+                         required maxlength="120" aria-describedby="contacto-correo-error">
+                  <p class="invalid-feedback" id="contacto-correo-error">Escribe un correo válido, por ejemplo nombre@correo.com.</p>
+                </div>
+                <div class="col-6">
+                  <label class="form-label" for="contacto-telefono">Teléfono o celular <span aria-hidden="true">*</span></label>
+                  <input class="form-control" id="contacto-telefono" name="telefono" type="tel" autocomplete="tel"
+                         inputmode="tel" required pattern="[+]?[0-9 ]{7,20}" aria-describedby="contacto-telefono-ayuda contacto-telefono-error">
+                  <p class="form-text" id="contacto-telefono-ayuda">Ejemplo: 300 123 4567</p>
+                  <p class="invalid-feedback" id="contacto-telefono-error">Escribe un número de 7 a 15 dígitos, usando solo números y espacios.</p>
+                </div>
+                <div class="col-6">
+                  <label class="form-label" for="contacto-tipo">Tipo de proyecto <span aria-hidden="true">*</span></label>
+                  <select class="form-select" id="contacto-tipo" name="tipoProyecto" required aria-describedby="contacto-tipo-error">
+                    <option value="">Elige uno</option>
+                    <option value="residencial">Residencial (Vivienda)</option>
+                    <option value="comercial">Comercial y de Negocios</option>
+                    <option value="dotacional">Dotacional e Institucional</option>
+                    <option value="recreativo">Recreativo y Deportivo</option>
+                    <option value="industrial">Industrial y Logística</option>
+                    <option value="intervenciones">Intervenciones sobre lo Existente</option>
+                    <option value="urbanismo">Urbanismo y Territorio</option>
+                    <option value="otro">Otro / no estoy seguro</option>
+                  </select>
+                  <p class="invalid-feedback" id="contacto-tipo-error">Selecciona el tipo de proyecto.</p>
+                </div>
+                <div class="col-12">
+                  <label class="form-label" for="contacto-mensaje">Mensaje <span aria-hidden="true">*</span></label>
+                  <textarea class="form-control" id="contacto-mensaje" name="mensaje" rows="3" required minlength="10" maxlength="1500"
+                            aria-describedby="contacto-mensaje-error"></textarea>
+                  <p class="invalid-feedback" id="contacto-mensaje-error">Cuéntanos un poco sobre tu proyecto (mínimo 10 caracteres).</p>
+                </div>
+                <div class="col-12">
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="contacto-datos" name="consentimiento" required
+                           aria-describedby="contacto-datos-error">
+                    <label class="form-check-label" for="contacto-datos">
+                      Autorizo a Zenite Arquitectura SAS a tratar mis datos para responder esta solicitud, según la
+                      <a href="politica-de-datos.html">política de tratamiento de datos</a> (Ley 1581 de 2012). <span aria-hidden="true">*</span>
+                    </label>
+                    <p class="invalid-feedback" id="contacto-datos-error">Debes aceptar el tratamiento de datos para enviar el formulario.</p>
+                  </div>
+                </div>
+                <div class="col-12 formulario__pie">
+                  <p class="form-text">Los campos con <span aria-hidden="true">*</span><span class="visually-hidden">asterisco</span> son obligatorios.</p>
+                  <button class="btn btn-acento" type="submit">Enviar solicitud</button>
+                </div>
+              </div>
+              <div class="estado-envio" id="estado-envio" role="status" aria-live="polite" tabindex="-1"></div>
+            </form>
+        </div>
+        <div class="contacto__datos" data-revelar>
+            <p class="texto-guia">Te respondemos en máximo un día hábil. Si prefieres, escríbenos por WhatsApp o visítanos en Tunja.</p>
+            <address class="datos-contacto">
+              <dl>
+                <div><dt>WhatsApp</dt><dd><a href="https://wa.me/573157110946" rel="noopener" target="_blank">315 711 0946<span class="visually-hidden"> (se abre en una pestaña nueva)</span></a></dd></div>
+                <div><dt>Correo</dt><dd><a href="mailto:zeniteark@gmail.com">zeniteark@gmail.com</a></dd></div>
+                <div><dt>Instagram</dt><dd><a href="https://www.instagram.com/zenitearquitectura/" rel="noopener" target="_blank">@zenitearquitectura<span class="visually-hidden"> (se abre en una pestaña nueva)</span></a></dd></div>
+                <div><dt>Dirección</dt><dd>Calle 24 # 12-51, Tunja, Boyacá</dd></div>
+                <div><dt>Horario</dt><dd>Lunes a viernes, 8:00 a. m. a 6:00 p. m.</dd></div>
+              </dl>
+            </address>
+            <a class="btn btn-whatsapp" href="https://wa.me/573157110946?text=Hola%2C%20quiero%20informaci%C3%B3n%20sobre%20un%20proyecto" rel="noopener" target="_blank">
+              Escribir por WhatsApp<span class="visually-hidden"> (se abre en una pestaña nueva)</span>
+            </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+<!-- @pie -->
+  <footer class="pie">
+    <div class="container">
+      <div class="row g-4">
+        <div class="col-lg-4">
+          <a class="marca marca--clara" href="index.html" aria-label="Zenite Arquitectura, ir al inicio"><svg class="marca__isotipo" viewBox="0 0 100 100" aria-hidden="true" focusable="false"><use href="#isotipo"></use></svg><span class="marca__texto" aria-hidden="true"><span class="marca__nombre">Zenite</span><span class="marca__sub">Arquitectura</span></span></a>
+          <p class="pie__frase">Diseñamos espacios que inspiran y conectan con tu vida.</p>
+        </div>
+        <nav class="col-6 col-md-4 col-lg-2" aria-label="Secciones">
+          <h2 class="pie__titulo">Secciones</h2>
+          <ul class="pie__lista">
+            <li><a href="#inicio">Inicio</a></li>
+            <li><a href="#servicios">Servicios</a></li>
+            <li><a href="#portafolio">Portafolio</a></li>
+            <li><a href="#proceso">Proceso</a></li>
+            <li><a href="#nosotros">Nosotros</a></li>
+            <li><a href="#simulador">Simulador</a></li>
+            <li><a href="#contacto">Contacto</a></li>
+          </ul>
+        </nav>
+        <nav class="col-6 col-md-4 col-lg-3" aria-label="Servicios">
+          <h2 class="pie__titulo">Servicios</h2>
+          <ul class="pie__lista">
+            <li><a href="servicios/residencial.html">Residencial</a></li>
+            <li><a href="servicios/comercial.html">Comercial y de negocios</a></li>
+            <li><a href="servicios/dotacional.html">Dotacional e institucional</a></li>
+            <li><a href="servicios/recreativo.html">Recreativo y deportivo</a></li>
+            <li><a href="servicios/industrial.html">Industrial y logística</a></li>
+            <li><a href="servicios/intervenciones.html">Intervenciones sobre lo existente</a></li>
+            <li><a href="servicios/urbanismo.html">Urbanismo y territorio</a></li>
+          </ul>
+        </nav>
+        <div class="col-md-4 col-lg-3">
+          <h2 class="pie__titulo">Contacto</h2>
+          <ul class="pie__lista">
+            <li><a href="https://wa.me/573157110946" rel="noopener" target="_blank">WhatsApp 315 711 0946<span class="visually-hidden"> (se abre en una pestaña nueva)</span></a></li>
+            <li><a href="https://www.instagram.com/zenitearquitectura/" rel="noopener" target="_blank">Instagram<span class="visually-hidden"> (se abre en una pestaña nueva)</span></a></li>
+            <li><a href="mailto:zeniteark@gmail.com">zeniteark@gmail.com</a></li>
+            <li><a href="politica-de-datos.html">Política de tratamiento de datos</a></li>
+          </ul>
+        </div>
+      </div>
+      <p class="pie__legal">© <span data-anio>2026</span> Zenite Arquitectura SAS. Los valores del simulador son referenciales y no constituyen una oferta contractual.</p>
+    </div>
+  </footer>
+
+  <!-- RF-13 · Botón flotante de WhatsApp -->
+  <a class="whatsapp-flotante" href="https://wa.me/573157110946?text=Hola%2C%20quiero%20informaci%C3%B3n%20sobre%20un%20proyecto"
+     rel="noopener" target="_blank" aria-label="Escribir por WhatsApp (se abre en una pestaña nueva)">
+    <svg viewBox="0 0 32 32" width="28" height="28" aria-hidden="true" focusable="false"><path fill="currentColor" d="M16 3a13 13 0 0 0-11.2 19.6L3 29l6.6-1.7A13 13 0 1 0 16 3zm0 23.6c-2 0-4-.6-5.7-1.6l-.4-.2-3.9 1 1-3.8-.3-.4A10.6 10.6 0 1 1 16 26.6zm5.8-7.9c-.3-.2-1.9-.9-2.2-1s-.5-.2-.7.2-.8 1-1 1.2-.4.2-.7 0a8.7 8.7 0 0 1-4.3-3.8c-.3-.6.3-.5.9-1.7.1-.2 0-.4 0-.5l-1-2.4c-.3-.6-.5-.5-.7-.5h-.6a1.2 1.2 0 0 0-.9.4 3.6 3.6 0 0 0-1.1 2.7 6.3 6.3 0 0 0 1.3 3.3 14.4 14.4 0 0 0 5.5 4.9c2 .9 2.8.9 3.8.8a3.3 3.3 0 0 0 2.2-1.5 2.7 2.7 0 0 0 .2-1.5c-.1-.2-.3-.3-.5-.4z"/></svg>
+  </a>
+
+  <script src="vendor/bootstrap/bootstrap.bundle.min.js" defer></script>
+  <script src="vendor/gsap/gsap.min.js" defer></script>
+  <script src="vendor/gsap/ScrollTrigger.min.js" defer></script>
+  <script type="module" src="js/main.js"></script>
+<!-- /@pie -->
+</body>
+</html>

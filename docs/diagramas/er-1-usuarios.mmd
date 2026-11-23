@@ -1,0 +1,45 @@
+erDiagram
+  USUARIO ||--o{ SESION : "abre"
+  USUARIO ||--o{ CODIGO_VERIFICACION : "recibe"
+  USUARIO |o--o{ HISTORIAL_CAMBIO : "registra"
+  USUARIO |o--o{ PUBLICACION : "publica"
+  USUARIO {
+    int id PK
+    string correo UK
+    enum rol "ADMINISTRADOR | EDITOR"
+    string hash_contrasena "scrypt"
+    bool activo
+    int intentos_fallidos
+    datetime bloqueado_hasta
+  }
+  SESION {
+    string id PK "hash SHA-256 del token"
+    int usuario_id FK
+    datetime expira
+    datetime ultima_actividad
+  }
+  CODIGO_VERIFICACION {
+    int id PK
+    int usuario_id FK
+    enum proposito "SEGUNDO_FACTOR | RECUPERACION"
+    string hash_desafio UK
+    string hash_codigo
+    datetime expira
+    int intentos
+  }
+  HISTORIAL_CAMBIO {
+    int id PK
+    int usuario_id FK
+    string entidad
+    enum accion "CREAR, ACTUALIZAR, ELIMINAR, ORDENAR, PUBLICAR, RESTAURAR"
+    json antes
+    json despues
+    datetime fecha
+  }
+  PUBLICACION {
+    int id PK
+    int version UK
+    json contenido "copia del sitio publicado"
+    int publicada_por_id FK
+    int restaurada_de
+  }
