@@ -27,7 +27,8 @@ function plantilla({ titulo, parrafos = [], boton, pie }) {
 export function crearServicioCorreo({ config, transporte } = {}) {
   const bandeja = []; // correos de prueba (modo demostración)
   let transporteReal = transporte ?? null;
-  const simulado = !transporte && (config.demo || !config.smtp.usuario || !config.smtp.contrasena);
+  const usaResend = !transporte && Boolean(config.resend?.apiKey);
+  const simulado = !transporte && !usaResend && (config.demo || !config.smtp.usuario || !config.smtp.contrasena);
 
   async function obtenerTransporte() {
     if (transporteReal) return transporteReal;
@@ -44,6 +45,28 @@ export function crearServicioCorreo({ config, transporte } = {}) {
     return transporteReal;
   }
 
+  /** Envía por la API HTTP de Resend (no usa SMTP: funciona en plataformas que lo bloquean, como Render). */
+  async function enviarPorResend(mensaje) {
+    const respuesta = await fetch('https://api.resend.com/emails', {
+      method: 'POST',
+      headers: { Authorization: `Bearer ${config.resend.apiKey}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        from: config.resend.remitente,
+        to: [mensaje.to],
+        subject: mensaje.subject,
+        html: mensaje.html,
+        text: mensaje.text,
+        reply_to: mensaje.replyTo || undefined,
+        attachments: mensaje.attachments.map((a) => ({ filename: a.filename, content: Buffer.from(a.content).toString('base64') })),
+      }),
+    });
+    if (!respuesta.ok) {
+      const cuerpo = await respuesta.text().catch(() => '');
+      throw new Error(`Resend respondió ${respuesta.status}: ${cuerpo.slice(0, 300)}`);
+    }
+    return respuesta.json();
+  }
+
   async function enviar({ para, asunto, html, texto, adjuntos = [], responderA }) {
     const mensaje = { from: config.smtp.remitente, to: para, subject: asunto, html, text: texto, replyTo: responderA, attachments: adjuntos };
     if (simulado) {
@@ -51,6 +74,7 @@ export function crearServicioCorreo({ config, transporte } = {}) {
       bandeja.splice(30);
       return { simulado: true };
     }
+    if (usaResend) return enviarPorResend(mensaje);
     const t = await obtenerTransporte();
     return t.sendMail(mensaje);
   }

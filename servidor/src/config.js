@@ -26,7 +26,12 @@ export function cargarConfiguracion(valores = {}) {
     servirSitio: demo || v('SERVIR_SITIO', '') === '1',
     origenesPermitidos: v('ORIGENES_PERMITIDOS', 'http://localhost:8080,http://127.0.0.1:8080').split(',').map((s) => s.trim()).filter(Boolean),
     secreto: v('SECRETO_SESIONES', produccion ? undefined : 'solo-para-desarrollo-cambiar-en-produccion'),
-    // Correo (Gmail con contraseña de aplicación u otro SMTP)
+    // Correo: por API (Resend, recomendado en Render porque bloquea SMTP saliente)
+    // o por SMTP (Gmail con contraseña de aplicación), si no hay clave de Resend.
+    resend: {
+      apiKey: v('RESEND_API_KEY', ''),
+      remitente: v('RESEND_REMITENTE', 'Zenite Web <onboarding@resend.dev>'),
+    },
     smtp: {
       host: v('SMTP_HOST', 'smtp.gmail.com'),
       puerto: Number(v('SMTP_PUERTO', 465)),
@@ -63,7 +68,7 @@ export function cargarConfiguracion(valores = {}) {
     if (!config.secreto || config.secreto.length < 32) faltan.push('SECRETO_SESIONES (mínimo 32 caracteres)');
     if (!entorno.DATABASE_URL && !valores.DATABASE_URL) faltan.push('DATABASE_URL');
     if (config.almacenamiento.proveedor === 'supabase' && (!config.almacenamiento.supabaseUrl || !config.almacenamiento.supabaseClave)) faltan.push('SUPABASE_URL y SUPABASE_SERVICE_ROLE_KEY');
-    if (!config.smtp.usuario || !config.smtp.contrasena) faltan.push('SMTP_USUARIO y SMTP_CONTRASENA');
+    if (!config.resend.apiKey && (!config.smtp.usuario || !config.smtp.contrasena)) faltan.push('RESEND_API_KEY, o SMTP_USUARIO y SMTP_CONTRASENA');
     if (faltan.length) throw new Error(`Faltan variables de entorno: ${faltan.join(', ')}`);
   }
   return config;
