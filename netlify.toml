@@ -5,7 +5,7 @@
   publish = "."
   command = "npm test"
 
-# La API y el panel viven en Render (zenite-api.onrender.com) y las fotos y
+# La API y el panel viven en Render (zenite-api-3eb7.onrender.com) y las fotos y
 # videos subidos desde el panel, en Supabase Storage. Si cambia alguna de esas
 # direcciones, actualícela también en la política de seguridad de contenido.
 
@@ -13,7 +13,7 @@
 [[headers]]
   for = "/*"
   [headers.values]
-    Content-Security-Policy = "default-src 'self'; script-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co https://zenite-api.onrender.com; media-src 'self' https://*.supabase.co https://zenite-api.onrender.com; connect-src 'self' https://zenite-api.onrender.com; form-action 'self'; frame-ancestors 'none'; base-uri 'self'"
+    Content-Security-Policy = "default-src 'self'; script-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co https://zenite-api-3eb7.onrender.com; media-src 'self' https://*.supabase.co https://zenite-api-3eb7.onrender.com; connect-src 'self' https://zenite-api-3eb7.onrender.com; form-action 'self'; frame-ancestors 'none'; base-uri 'self'"
     X-Content-Type-Options = "nosniff"
     Referrer-Policy = "strict-origin-when-cross-origin"
     Permissions-Policy = "camera=(), microphone=(), geolocation=()"
