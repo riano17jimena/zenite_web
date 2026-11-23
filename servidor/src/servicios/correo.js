@@ -37,6 +37,9 @@ export function crearServicioCorreo({ config, transporte } = {}) {
       port: config.smtp.puerto,
       secure: config.smtp.seguro,
       auth: { user: config.smtp.usuario, pass: config.smtp.contrasena },
+      connectionTimeout: 8000,
+      greetingTimeout: 8000,
+      socketTimeout: 10000,
     });
     return transporteReal;
   }
