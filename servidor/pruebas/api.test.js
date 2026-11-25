@@ -103,17 +103,11 @@ describe('Acceso al panel', () => {
     assert.equal(r.estado, 403);
   });
 
-  test('contraseña + código por correo y cookie segura', async () => {
+  test('contraseña correcta y cookie segura', async () => {
     const c = e.cliente();
-    const p1 = await c.post('/api/auth/ingresar', { correo: 'admin@prueba.co', contrasena: CONTRASENA });
-    assert.equal(p1.estado, 200);
-    assert.match(p1.datos.correo, /^ad•+@prueba\.co$/);
-    assert.equal((await c.get('/api/auth/yo')).estado, 401, 'sin código todavía no hay sesión');
-    const malo = await c.post('/api/auth/verificar', { desafio: p1.datos.desafio, codigo: '000000' });
-    assert.equal(malo.estado, 401);
-    const p2 = await c.post('/api/auth/verificar', { desafio: p1.datos.desafio, codigo: e.ultimoCodigo('admin@prueba.co') });
-    assert.equal(p2.estado, 200);
-    assert.match(p2.cabeceras.get('set-cookie'), /HttpOnly; SameSite=Strict/i);
+    const r = await c.post('/api/auth/ingresar', { correo: 'admin@prueba.co', contrasena: CONTRASENA });
+    assert.equal(r.estado, 200);
+    assert.match(r.cabeceras.get('set-cookie'), /HttpOnly; SameSite=Strict/i);
     const yo = await c.get('/api/auth/yo');
     assert.equal(yo.datos.usuario.rol, 'ADMINISTRADOR');
     assert.equal(yo.datos.usuario.hashContrasena, undefined);

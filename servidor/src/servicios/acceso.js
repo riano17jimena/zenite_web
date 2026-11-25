@@ -48,6 +48,21 @@ export function crearServicioAcceso({ db, config, correo, historial }) {
     return desafio;
   }
 
+  /**
+   * Crea la sesión (cookie) tras validar la contraseña.
+   * Segundo factor por correo DESACTIVADO TEMPORALMENTE: sin dominio verificado en
+   * Resend, el código de acceso solo le llega al correo dueño de la cuenta de Resend,
+   * así que exigirlo bloqueaba el ingreso de cualquier otro usuario. Reactivar
+   * devolviendo crearDesafio(usuario) en vez de esto cuando el correo esté resuelto.
+   */
+  async function crearSesion(usuario, { ip, agente } = {}) {
+    const token = tokenAleatorio();
+    const expira = new Date(Date.now() + horasSesion * 60 * MINUTO);
+    await db.sesion.create({ data: { id: sha256(token), usuarioId: usuario.id, expira, ip: ip ?? null, agente: agente?.slice(0, 200) ?? null } });
+    const actualizado = await db.usuario.update({ where: { id: usuario.id }, data: { ultimoAcceso: new Date() } });
+    return { token, expira, usuario: usuarioPublico(actualizado) };
+  }
+
   /** Crea un enlace de un solo uso para crear o restablecer la contraseña. */
   async function crearEnlaceContrasena(usuario, minutos) {
     const token = tokenAleatorio();
@@ -59,8 +74,8 @@ export function crearServicioAcceso({ db, config, correo, historial }) {
   }
 
   return {
-    /** Paso 1: correo y contraseña. Devuelve el desafío para el paso 2. */
-    async ingresar({ correo: email, contrasena }) {
+    /** Correo y contraseña. Sin segundo factor por ahora: ver nota en crearSesion. */
+    async ingresar({ correo: email, contrasena }, { ip, agente } = {}) {
       const correoNormal = String(email ?? '').trim().toLowerCase();
       const usuario = await db.usuario.findUnique({ where: { correo: correoNormal } });
       if (!usuario || !usuario.activo) {
@@ -84,8 +99,7 @@ export function crearServicioAcceso({ db, config, correo, historial }) {
         throw new ErrorApp(401, `${MENSAJE_CREDENCIALES} Te ${quedan === 1 ? 'queda 1 intento' : `quedan ${quedan} intentos`} antes del bloqueo temporal.`);
       }
       await db.usuario.update({ where: { id: usuario.id }, data: { intentosFallidos: 0, bloqueadoHasta: null } });
-      const desafio = await crearDesafio(usuario);
-      return { desafio, correo: ocultarCorreo(usuario.correo), minutos: minutosCodigo };
+      return crearSesion(usuario, { ip, agente });
     },
 
     /** Paso 2: código del correo. Devuelve el token de sesión. */

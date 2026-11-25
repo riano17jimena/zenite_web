@@ -3,7 +3,7 @@
  */
 import { enviar, obtener } from './api.js';
 import { mostrarEnlaceDemo } from './demo.js';
-import { anunciar, conBotonOcupado, h, leerFormulario, limpiarErrores, mostrarErrores, vaciar } from './ui.js';
+import { conBotonOcupado, h, leerFormulario, limpiarErrores, mostrarErrores, vaciar } from './ui.js';
 
 const pagina = document.body.dataset.pagina;
 const mensajes = document.getElementById('mensajes');
@@ -26,13 +26,11 @@ async function ingresar() {
   } catch { /* no hay sesión: se muestra el formulario */ }
 
   const formIngresar = document.getElementById('form-ingresar');
-  const formCodigo = document.getElementById('form-codigo');
-  const pasoContrasena = document.getElementById('paso-contrasena');
-  const pasoCodigo = document.getElementById('paso-codigo');
-  let desafio = null;
   alternarVisibilidad(document.getElementById('mostrar'), document.getElementById('contrasena'));
   document.getElementById('correo').focus();
 
+  // Segundo factor por correo desactivado temporalmente (ver acceso.js del servidor,
+  // función crearSesion): entrar con solo correo y contraseña va directo al panel.
   formIngresar.addEventListener('submit', async (e) => {
     e.preventDefault();
     const datos = leerFormulario(formIngresar);
@@ -41,50 +39,12 @@ async function ingresar() {
     if (!datos.contrasena) detalles.contrasena = 'Escribe tu contraseña.';
     if (Object.keys(detalles).length) return mostrarErrores(formIngresar, { message: 'Revisa los campos marcados.', detalles });
     try {
-      const r = await conBotonOcupado(formIngresar.querySelector('[type=submit]'), () => enviar('/api/auth/ingresar', datos), 'Verificando…');
-      limpiarErrores(formIngresar);
-      vaciar(mensajes);
-      desafio = r.desafio;
-      document.getElementById('correo-oculto').textContent = r.correo;
-      document.getElementById('minutos').textContent = r.minutos;
-      pasoContrasena.hidden = true;
-      pasoCodigo.hidden = false;
-      document.getElementById('codigo').focus();
-      anunciar(`Te enviamos un código a ${r.correo}.`, { visible: false });
+      await conBotonOcupado(formIngresar.querySelector('[type=submit]'), () => enviar('/api/auth/ingresar', datos), 'Entrando…');
+      location.replace(`app.html${new URLSearchParams(location.search).get('volver') || ''}`);
     } catch (error) {
       mostrarErrores(formIngresar, error);
       document.getElementById('contrasena').value = '';
     }
-  });
-
-  formCodigo.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const codigo = document.getElementById('codigo').value.replace(/\D/g, '');
-    if (codigo.length !== 6) return mostrarErrores(formCodigo, { message: 'Revisa el código.', detalles: { codigo: 'El código tiene 6 números.' } });
-    try {
-      await conBotonOcupado(formCodigo.querySelector('[type=submit]'), () => enviar('/api/auth/verificar', { desafio, codigo }), 'Entrando…');
-      location.replace(`app.html${new URLSearchParams(location.search).get('volver') || ''}`);
-    } catch (error) {
-      mostrarErrores(formCodigo, error);
-      if (/intentos|vuelve a escribir/i.test(error.message)) setTimeout(() => document.getElementById('volver').click(), 2500);
-    }
-  });
-
-  document.getElementById('reenviar').addEventListener('click', async (e) => {
-    try {
-      const r = await conBotonOcupado(e.currentTarget, () => enviar('/api/auth/reenviar-codigo', { desafio }), 'Enviando…');
-      mensaje(`Te enviamos un código nuevo a ${r.correo}. El anterior ya no sirve.`, 'exito');
-      document.getElementById('codigo').focus();
-    } catch (error) { mensaje(error.message, 'error'); }
-  });
-
-  document.getElementById('volver').addEventListener('click', () => {
-    desafio = null;
-    pasoCodigo.hidden = true;
-    pasoContrasena.hidden = false;
-    formCodigo.reset();
-    vaciar(mensajes);
-    document.getElementById('correo').focus();
   });
 }
 

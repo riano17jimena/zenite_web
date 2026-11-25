@@ -68,10 +68,8 @@ export async function crearEntorno() {
 
   async function ingresar(correo) {
     const c = cliente();
-    const paso1 = await c.post('/api/auth/ingresar', { correo, contrasena: CONTRASENA });
-    if (paso1.estado !== 200) throw new Error(`No ingresó: ${JSON.stringify(paso1.datos)}`);
-    const paso2 = await c.post('/api/auth/verificar', { desafio: paso1.datos.desafio, codigo: ultimoCodigo(correo) });
-    if (paso2.estado !== 200) throw new Error(`Código rechazado: ${JSON.stringify(paso2.datos)}`);
+    const r = await c.post('/api/auth/ingresar', { correo, contrasena: CONTRASENA });
+    if (r.estado !== 200) throw new Error(`No ingresó: ${JSON.stringify(r.datos)}`);
     return c;
   }
 

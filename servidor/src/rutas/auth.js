@@ -17,7 +17,12 @@ export function rutasAuth({ servicios, config }) {
   const limiteCorreo = limitarPorIp(crearLimitador({ maximo: 6, ventanaMs: 60 * MINUTO }), 'Ya enviamos varios correos. Espera un momento antes de pedir otro.');
 
   r.post('/ingresar', limiteIngreso, asincrono(async (req, res) => {
-    res.json(await acceso.ingresar({ correo: req.body?.correo, contrasena: req.body?.contrasena }));
+    const { token, expira, usuario } = await acceso.ingresar(
+      { correo: req.body?.correo, contrasena: req.body?.contrasena },
+      { ip: req.ip, agente: req.get('user-agent') },
+    );
+    res.cookie(COOKIE_SESION, token, opcionesCookie(config, expira));
+    res.json({ usuario });
   }));
 
   r.post('/verificar', limiteIngreso, asincrono(async (req, res) => {
