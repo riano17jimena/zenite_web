@@ -261,6 +261,31 @@ describe('Panel: contenido, permisos y publicación', () => {
     assert.equal(await e.db.solicitudContacto.count({ where: { id: contacto.id } }), 0);
   });
 
+  test('cotizaciones: el administrador puede agregar, editar y quitar ítems, y se recalcula el total', async () => {
+    const ad = await e.ingresar('admin@prueba.co');
+    const resumen = (await ad.get('/api/admin/cotizaciones')).datos.cotizaciones[0];
+    const completa = (await ad.get(`/api/admin/cotizaciones/${resumen.id}`)).datos;
+    assert.ok(completa.lineas.length > 0);
+
+    const lineas = [
+      ...completa.lineas.map((l) => ({ seccion: l.seccion, referencia: l.referencia, descripcion: l.descripcion, unidad: l.unidad, cantidad: l.cantidad, precioUnitario: l.precioUnitario })),
+      { seccion: 'CONSULTORIA', referencia: '', descripcion: 'Visita adicional de obra', unidad: 'Unidad', cantidad: 1, precioUnitario: 150000 },
+    ];
+    const r = await ad.put(`/api/admin/cotizaciones/${resumen.id}/lineas`, { lineas });
+    assert.equal(r.estado, 200, JSON.stringify(r.datos));
+    assert.equal(r.datos.lineas.length, completa.lineas.length + 1);
+    assert.equal(r.datos.subtotalConsultoria, completa.subtotalConsultoria + 150000);
+    assert.equal(r.datos.total, completa.total + 150000);
+
+    const sinLaNueva = r.datos.lineas.filter((l) => l.descripcion !== 'Visita adicional de obra').map((l) => ({ seccion: l.seccion, referencia: l.referencia, descripcion: l.descripcion, unidad: l.unidad, cantidad: l.cantidad, precioUnitario: l.precioUnitario }));
+    const r2 = await ad.put(`/api/admin/cotizaciones/${resumen.id}/lineas`, { lineas: sinLaNueva });
+    assert.equal(r2.estado, 200);
+    assert.equal(r2.datos.total, completa.total);
+
+    const vacio = await ad.put(`/api/admin/cotizaciones/${resumen.id}/lineas`, { lineas: [] });
+    assert.equal(vacio.estado, 400);
+  });
+
   test('usuarios: invitación por correo y siempre queda un administrador', async () => {
     const ad = await e.ingresar('admin@prueba.co');
     const nuevo = await ad.post('/api/admin/usuarios', { nombre: 'Ana Ruiz', correo: 'ana@prueba.co', rol: 'EDITOR' });

@@ -13,6 +13,7 @@ import { z } from 'zod';
 import { ErrorApp, aNumero, noEncontrado } from '../errores.js';
 import { CLAVES_CATEGORIA, nombreCategoria } from '../dominio/categorias.js';
 import { formatearCOP } from '../dominio/cotizacion.js';
+import { redondearPeso } from '../dominio/precios.js';
 import { sha256 } from '../seguridad/criptografia.js';
 import { generarDocumentoCotizacion } from './documento-cotizacion.js';
 
@@ -49,6 +50,15 @@ export const esquemaSolicitudCotizacion = z.object({
 });
 
 const ESTADOS = ['NUEVA', 'EN_REVISION', 'CONTACTADA', 'CERRADA', 'DESCARTADA'];
+
+const esquemaLinea = z.object({
+  seccion: z.enum(['CONSULTORIA', 'CONSTRUCCION', 'FINANCIERA'], { errorMap: () => ({ message: 'Elige la sección del ítem.' }) }),
+  referencia: z.preprocess((v) => (v === '' || v == null ? '' : v), z.string().trim().max(40)).optional().default(''),
+  descripcion: z.string({ required_error: 'Escribe una descripción.' }).trim().min(1, 'Escribe una descripción.').max(300),
+  unidad: z.string({ required_error: 'Escribe la unidad.' }).trim().min(1, 'Escribe la unidad.').max(20),
+  cantidad: z.coerce.number({ invalid_type_error: 'La cantidad debe ser un número.' }).positive('La cantidad debe ser mayor que cero.').max(1_000_000),
+  precioUnitario: z.coerce.number({ invalid_type_error: 'El valor unitario debe ser un número.' }).min(0, 'El valor unitario no puede ser negativo.').max(9_999_999_999),
+});
 
 const serializarSolicitud = (s) => ({
   id: s.id, nombre: s.nombre, correo: s.correo, telefono: s.telefono, tipoProyecto: s.tipoProyecto,
@@ -257,6 +267,43 @@ export function crearServicioSolicitudes({ db, config, correo, cotizador, histor
       const ok = await enviarCotizacion(c);
       await historial.registrar({ usuario, entidad: 'cotizacion', entidadId: c.id, accion: 'ACTUALIZAR', resumen: `Reenvió la cotización ${c.codigo}${ok ? '' : ' (falló el envío)'}` });
       if (!ok) throw new ErrorApp(502, 'No se pudo enviar el correo. Revisa la configuración de correo del servidor.');
+    },
+
+    /**
+     * Reemplaza todos los ítems de una cotización (el arquitecto puede agregar,
+     * editar o quitar análisis, servicios o costos financieros) y recalcula los
+     * subtotales, el AIU de construcción y el total, con los mismos porcentajes
+     * que se usaron al generarla.
+     */
+    async actualizarLineasCotizacion(id, lista, usuario) {
+      const cotizacion = await db.cotizacion.findUnique({ where: { id: Number(id) } });
+      if (!cotizacion) throw noEncontrado('La cotización');
+      const lineas = z.array(esquemaLinea).min(1, 'La cotización debe tener al menos un ítem.').max(200, 'Puedes incluir hasta 200 ítems por cotización.').parse(lista)
+        .map((l) => ({ ...l, referencia: l.referencia || '—', valor: redondearPeso(l.cantidad * l.precioUnitario) }));
+
+      const sumar = (seccion) => lineas.filter((l) => l.seccion === seccion).reduce((t, l) => t + l.valor, 0);
+      const subtotalConsultoria = sumar('CONSULTORIA');
+      const subtotalConstruccion = sumar('CONSTRUCCION');
+      const subtotalFinanciera = sumar('FINANCIERA');
+      const p = cotizacion.parametros ?? {};
+      const administracion = redondearPeso(subtotalConstruccion * Number(p.administracion ?? 0));
+      const imprevistos = redondearPeso(subtotalConstruccion * Number(p.imprevistos ?? 0));
+      const utilidad = redondearPeso(subtotalConstruccion * Number(p.utilidad ?? 0));
+      const ivaUtilidad = redondearPeso(utilidad * Number(p.ivaSobreUtilidad ?? 0));
+      const total = subtotalConsultoria + subtotalConstruccion + administracion + imprevistos + utilidad + ivaUtilidad + subtotalFinanciera;
+
+      await db.$transaction(async (tx) => {
+        await tx.cotizacionLinea.deleteMany({ where: { cotizacionId: cotizacion.id } });
+        await tx.cotizacionLinea.createMany({
+          data: lineas.map((l, orden) => ({ cotizacionId: cotizacion.id, seccion: l.seccion, referencia: l.referencia, descripcion: l.descripcion, unidad: l.unidad, cantidad: l.cantidad, precioUnitario: l.precioUnitario, valor: l.valor, orden })),
+        });
+        await tx.cotizacion.update({ where: { id: cotizacion.id }, data: { subtotalConsultoria, subtotalConstruccion, subtotalFinanciera, administracion, imprevistos, utilidad, ivaUtilidad, total } });
+      });
+      await historial.registrar({
+        usuario, entidad: 'cotizacion', entidadId: cotizacion.id, accion: 'ACTUALIZAR', resumen: `Editó los ítems de la cotización ${cotizacion.codigo}`,
+        antes: { total: aNumero(cotizacion.total) }, despues: { total },
+      });
+      return serializarCotizacion(await cotizacionCompleta(cotizacion.id));
     },
   };
 }

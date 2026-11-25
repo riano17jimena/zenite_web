@@ -134,6 +134,7 @@ export function rutasAdmin({ servicios, config }) {
     res.send(archivo);
   }));
   r.post('/cotizaciones/:id/reenviar', soloAdmin, asincrono(async (req, res) => res.json(await solicitudes.reenviarCotizacion(Number(req.params.id), req.usuario))));
+  r.put('/cotizaciones/:id/lineas', soloAdmin, asincrono(async (req, res) => res.json(await solicitudes.actualizarLineasCotizacion(Number(req.params.id), req.body?.lineas, req.usuario))));
 
   // ─── Usuarios ──────────────────────────────────────────────────────────
   r.get('/usuarios', soloAdmin, asincrono(async (req, res) => res.json(await usuarios.listar())));
