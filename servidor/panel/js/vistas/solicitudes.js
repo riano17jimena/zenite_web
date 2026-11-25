@@ -58,10 +58,14 @@ async function detalle(id, recargar) {
   const s = await obtener(`/api/admin/solicitudes/${id}`);
   const { cuerpo, pie, cerrar } = abrirDialogo({ titulo: `Solicitud de ${s.nombre}` });
   const tel = s.telefono.replace(/\D/g, '');
+  const asuntoCorreo = `Zenite Web · Sobre tu solicitud${s.tipoProyectoNombre ? ` de ${s.tipoProyectoNombre}` : ''}`;
+  const cuerpoCorreo = `Hola ${s.nombre},\n\nGracias por contactar a Zenite Web. `;
+  const urlGmail = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(s.correo)}&su=${encodeURIComponent(asuntoCorreo)}&body=${encodeURIComponent(cuerpoCorreo)}`;
+  const mensajeWhatsapp = `Hola ${s.nombre}, te saluda Zenite Web. Vimos tu solicitud${s.tipoProyectoNombre ? ` sobre ${s.tipoProyectoNombre}` : ''} y queremos ayudarte.`;
   cuerpo.append(
     h('dl', { class: 'datos' },
-      h('dt', { text: 'Correo' }), h('dd', {}, h('a', { href: `mailto:${s.correo}`, text: s.correo })),
-      h('dt', { text: 'Teléfono' }), h('dd', {}, h('a', { href: `tel:+57${tel}`, text: s.telefono }), ' · ', h('a', { href: `https://wa.me/57${tel}`, target: '_blank', rel: 'noopener', text: 'Escribir por WhatsApp (otra pestaña)' })),
+      h('dt', { text: 'Correo' }), h('dd', {}, h('a', { href: urlGmail, target: '_blank', rel: 'noopener', text: s.correo })),
+      h('dt', { text: 'Teléfono' }), h('dd', {}, h('a', { href: `tel:+57${tel}`, text: s.telefono }), ' · ', h('a', { href: `https://wa.me/57${tel}?text=${encodeURIComponent(mensajeWhatsapp)}`, target: '_blank', rel: 'noopener', text: 'Escribir por WhatsApp (otra pestaña)' })),
       h('dt', { text: 'Tipo de proyecto' }), h('dd', { text: s.tipoProyectoNombre ?? '—' }),
       h('dt', { text: 'Recibida' }), h('dd', { text: formatoFecha(s.creada) }),
       h('dt', { text: 'Autorización de datos' }), h('dd', { text: s.consentimiento ? `Sí, el ${formatoFecha(s.fechaConsentimiento)} (política versión ${s.versionPolitica})` : 'No' }),
