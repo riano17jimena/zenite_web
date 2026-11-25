@@ -75,6 +75,7 @@ function accion(texto, u, ruta, mensaje, recargar) {
 function mostrarEnlaceInvitacion(u, enlace, correoEnviado) {
   const { cuerpo, pie, cerrar } = abrirDialogo({ titulo: 'Enlace de invitación' });
   const campoEnlace = h('input', { type: 'text', readonly: true, value: enlace, class: 'campo-texto', onClick: (e) => e.currentTarget.select() });
+  const campoTelefono = h('input', { type: 'tel', placeholder: 'Ej. 3001234567', class: 'campo-texto', autocompletar: 'off' });
   const mensajeWhatsapp = `Hola ${u.nombre}, te invitamos al panel de Zenite Web. Crea tu contraseña con este enlace: ${enlace}`;
   cuerpo.append(
     h('p', {
@@ -82,9 +83,18 @@ function mostrarEnlaceInvitacion(u, enlace, correoEnviado) {
         ? `Le enviamos el correo de invitación a ${u.correo}, pero a veces lo filtran como spam o no llega. Si en unos minutos no le llega, usa este enlace para enviárselo tú mismo (vence en 72 horas).`
         : `No pudimos enviarle el correo de invitación a ${u.correo}. Copia este enlace y envíaselo tú mismo, por ejemplo por WhatsApp o correo (vence en 72 horas).`,
     }),
-    campoEnlace);
+    campoEnlace,
+    h('label', { class: 'texto-suave', text: 'Número de WhatsApp de la persona (con indicativo de ciudad/celular, sin +57)' }),
+    campoTelefono);
   pie.append(
-    h('a', { href: `https://wa.me/?text=${encodeURIComponent(mensajeWhatsapp)}`, target: '_blank', rel: 'noopener', class: 'boton boton-secundario', text: 'Enviar por WhatsApp' }),
+    h('button', {
+      type: 'button', class: 'boton boton-secundario', text: 'Enviar por WhatsApp',
+      onClick: () => {
+        const tel = campoTelefono.value.replace(/\D/g, '');
+        if (tel.length < 10) { campoTelefono.focus(); anunciarError(new Error('Escribe el número de celular de la persona (10 dígitos).')); return; }
+        window.open(`https://wa.me/57${tel}?text=${encodeURIComponent(mensajeWhatsapp)}`, '_blank', 'noopener');
+      },
+    }),
     h('button', {
       type: 'button', class: 'boton boton-primario', text: 'Copiar enlace',
       onClick: async () => { await navigator.clipboard.writeText(enlace); anunciar('Enlace copiado.'); },
