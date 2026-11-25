@@ -180,10 +180,10 @@ export function crearServicioContenido({ db, historial }) {
     return r.serializar(fila);
   }
 
-  async function guardarImagenes(proyectoId, imagenes) {
-    await db.imagenProyecto.deleteMany({ where: { proyectoId } });
+  async function guardarImagenes(tx, proyectoId, imagenes) {
+    await tx.imagenProyecto.deleteMany({ where: { proyectoId } });
     for (const [orden, img] of imagenes.entries()) {
-      await db.imagenProyecto.create({ data: { proyectoId, medioId: img.medioId, alt: img.alt, orden } });
+      await tx.imagenProyecto.create({ data: { proyectoId, medioId: img.medioId, alt: img.alt, orden } });
     }
   }
 
@@ -207,7 +207,7 @@ export function crearServicioContenido({ db, historial }) {
       if (r.modelo === 'video') campos.duracionSeg = await duracionDe(campos.archivoId);
       const fila = await db.$transaction(async (tx) => {
         const creada = await tx[r.modelo].create({ data: { ...campos, orden: (ultimo?.orden ?? -1) + 1 } });
-        if (imagenes) await guardarImagenes(creada.id, imagenes);
+        if (imagenes) await guardarImagenes(tx, creada.id, imagenes);
         return creada;
       });
       const resultado = await obtener(nombre, fila.id);
@@ -224,7 +224,7 @@ export function crearServicioContenido({ db, historial }) {
       if (r.modelo === 'video') campos.duracionSeg = await duracionDe(campos.archivoId);
       await db.$transaction(async (tx) => {
         await tx[r.modelo].update({ where: { id: antes.id }, data: campos });
-        if (imagenes) await guardarImagenes(antes.id, imagenes);
+        if (imagenes) await guardarImagenes(tx, antes.id, imagenes);
       });
       const despues = await obtener(nombre, id);
       await historial.registrar({ usuario, entidad: r.entidad, entidadId: antes.id, accion: 'ACTUALIZAR', resumen: `Editó ${r.singular} «${r.titulo(despues)}»`, antes, despues });
