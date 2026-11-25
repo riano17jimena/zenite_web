@@ -6,6 +6,12 @@
  */
 const escapar = (t) => String(t ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 
+/** «Nombre <correo@dominio>» → { name, email }, como piden las API de Brevo/Resend. */
+function partirRemitente(texto) {
+  const m = String(texto ?? '').match(/^(.*?)\s*<([^>]+)>$/);
+  return m ? { name: m[1].replace(/^"|"$/g, '').trim() || undefined, email: m[2].trim() } : { email: String(texto ?? '').trim() };
+}
+
 /** Plantilla HTML sencilla y accesible para todos los correos. */
 function plantilla({ titulo, parrafos = [], boton, pie }) {
   const cuerpo = parrafos.map((p) => `<p style="margin:0 0 16px;line-height:1.6">${p}</p>`).join('');
@@ -27,15 +33,15 @@ function plantilla({ titulo, parrafos = [], boton, pie }) {
 export function crearServicioCorreo({ config, transporte } = {}) {
   const bandeja = []; // correos de prueba (modo demostración)
   let transporteReal = transporte ?? null;
-  // SMTP (Gmail con contraseña de aplicación) va primero: no necesita dominio propio y
-  // puede enviar a cualquier destinatario, a diferencia de Resend sin dominio verificado.
-  // Antes fallaba en Render por timeout al conectar a smtp.gmail.com: Render suele resolver
-  // ese host con IPv6 primero y la ruta IPv6 no responde, así que se obliga IPv4 (family: 4).
-  const usaSmtp = !transporte && Boolean(config.smtp.usuario && config.smtp.contrasena);
-  const usaResend = !transporte && !usaSmtp && Boolean(config.resend?.apiKey);
-  // Sin credenciales reales de ninguno de los dos (como en pruebas o desarrollo local
-  // sin configurar), se guarda en la bandeja simulada en vez de intentar enviar de verdad.
-  const simulado = !transporte && !usaSmtp && !usaResend;
+  // Render bloquea las conexiones SMTP salientes (confirmado: ETIMEDOUT incluso forzando
+  // IPv4), así que ahí solo sirven API por HTTP. Orden: Brevo (con «remitente único»
+  // verificado, sin dominio, entrega a cualquier destinatario) > Resend (sin dominio
+  // verificado solo entrega al correo de la propia cuenta) > SMTP (Gmail; sirve en local,
+  // no en Render) > bandeja simulada si no hay nada configurado.
+  const usaBrevo = !transporte && Boolean(config.brevo?.apiKey);
+  const usaResend = !transporte && !usaBrevo && Boolean(config.resend?.apiKey);
+  const usaSmtp = !transporte && !usaBrevo && !usaResend && Boolean(config.smtp.usuario && config.smtp.contrasena);
+  const simulado = !transporte && !usaBrevo && !usaResend && !usaSmtp;
 
   async function obtenerTransporte() {
     if (transporteReal) return transporteReal;
@@ -51,6 +57,28 @@ export function crearServicioCorreo({ config, transporte } = {}) {
       socketTimeout: 20000,
     });
     return transporteReal;
+  }
+
+  /** Envía por la API HTTP de Brevo. Solo pide verificar el remitente (sin dominio), y entrega a cualquier destinatario. */
+  async function enviarPorBrevo(mensaje) {
+    const respuesta = await fetch('https://api.brevo.com/v3/smtp/email', {
+      method: 'POST',
+      headers: { 'api-key': config.brevo.apiKey, 'Content-Type': 'application/json', accept: 'application/json' },
+      body: JSON.stringify({
+        sender: partirRemitente(config.brevo.remitente),
+        to: [{ email: mensaje.to }],
+        subject: mensaje.subject,
+        htmlContent: mensaje.html,
+        textContent: mensaje.text,
+        replyTo: mensaje.replyTo ? partirRemitente(mensaje.replyTo) : undefined,
+        attachment: mensaje.attachments.map((a) => ({ name: a.filename, content: Buffer.from(a.content).toString('base64') })),
+      }),
+    });
+    if (!respuesta.ok) {
+      const cuerpo = await respuesta.text().catch(() => '');
+      throw new Error(`Brevo respondió ${respuesta.status}: ${cuerpo.slice(0, 300)}`);
+    }
+    return respuesta.json();
   }
 
   /** Envía por la API HTTP de Resend (no usa SMTP: funciona en plataformas que lo bloquean, como Render). */
@@ -82,6 +110,7 @@ export function crearServicioCorreo({ config, transporte } = {}) {
       bandeja.splice(30);
       return { simulado: true };
     }
+    if (usaBrevo) return enviarPorBrevo(mensaje);
     if (usaResend) return enviarPorResend(mensaje);
     const t = await obtenerTransporte();
     return t.sendMail(mensaje);

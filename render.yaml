@@ -30,6 +30,8 @@ services:
         sync: false
       - key: SUPABASE_SERVICE_ROLE_KEY
         sync: false
+      - key: BREVO_API_KEY
+        sync: false
       - key: SMTP_USUARIO
         sync: false
       - key: SMTP_CONTRASENA

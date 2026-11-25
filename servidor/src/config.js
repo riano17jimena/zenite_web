@@ -26,9 +26,14 @@ export function cargarConfiguracion(valores = {}) {
     servirSitio: demo || v('SERVIR_SITIO', '') === '1',
     origenesPermitidos: v('ORIGENES_PERMITIDOS', 'http://localhost:8080,http://127.0.0.1:8080').split(',').map((s) => s.trim()).filter(Boolean),
     secreto: v('SECRETO_SESIONES', produccion ? undefined : 'solo-para-desarrollo-cambiar-en-produccion'),
-    // Correo: por SMTP (Gmail con contraseña de aplicación) si hay credenciales, si no
-    // por la API de Resend (apiKey). SMTP no necesita dominio propio y envía a cualquier
-    // destinatario; Resend sin dominio verificado solo entrega al correo de su cuenta.
+    // Correo: Brevo (API HTTP, solo pide verificar un remitente, sin dominio propio) si hay
+    // clave; si no, Resend (igual por API, pero sin dominio verificado solo entrega al
+    // correo de su propia cuenta); si no, SMTP (Gmail) solo para desarrollo local, porque
+    // Render bloquea las conexiones SMTP salientes.
+    brevo: {
+      apiKey: v('BREVO_API_KEY', ''),
+      remitente: v('BREVO_REMITENTE', 'Zenite Web <zeniteark@gmail.com>'),
+    },
     resend: {
       apiKey: v('RESEND_API_KEY', ''),
       remitente: v('RESEND_REMITENTE', 'Zenite Web <onboarding@resend.dev>'),
@@ -69,7 +74,7 @@ export function cargarConfiguracion(valores = {}) {
     if (!config.secreto || config.secreto.length < 32) faltan.push('SECRETO_SESIONES (mínimo 32 caracteres)');
     if (!entorno.DATABASE_URL && !valores.DATABASE_URL) faltan.push('DATABASE_URL');
     if (config.almacenamiento.proveedor === 'supabase' && (!config.almacenamiento.supabaseUrl || !config.almacenamiento.supabaseClave)) faltan.push('SUPABASE_URL y SUPABASE_SERVICE_ROLE_KEY');
-    if (!config.resend.apiKey && (!config.smtp.usuario || !config.smtp.contrasena)) faltan.push('RESEND_API_KEY, o SMTP_USUARIO y SMTP_CONTRASENA');
+    if (!config.brevo.apiKey && !config.resend.apiKey && (!config.smtp.usuario || !config.smtp.contrasena)) faltan.push('BREVO_API_KEY, RESEND_API_KEY, o SMTP_USUARIO y SMTP_CONTRASENA');
     if (faltan.length) throw new Error(`Faltan variables de entorno: ${faltan.join(', ')}`);
   }
   return config;

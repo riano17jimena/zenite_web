@@ -8,7 +8,7 @@ Sitio web de **Zenite Arquitectura SAS** (Tunja, Boyacá) con panel de administr
 | API y panel de administración | Node.js 20, Express 4, Prisma 6, zod, sharp, ffmpeg, docx, nodemailer | **Render** |
 | Base de datos | PostgreSQL | **Supabase** |
 | Fotos y videos | Supabase Storage (bucket público de lectura) | **Supabase** |
-| Correo | Gmail (SMTP con contraseña de aplicación) | Google |
+| Correo | Brevo (API HTTP; Render bloquea SMTP saliente) | Brevo |
 
 ![Arquitectura](docs/img/arquitectura.png)
 
@@ -102,10 +102,18 @@ La prueba `servidor/pruebas/precios.test.js` comprueba que el cálculo de precio
 3. **Storage → New bucket** → nombre `zenite-medios`, marcado como **Public bucket**. Límite de archivo: 50 MB.
 4. **Project Settings → API** → copia `Project URL` (`SUPABASE_URL`) y la clave `service_role` (`SUPABASE_SERVICE_ROLE_KEY`). **Esta clave nunca va en el sitio público ni en GitHub.**
 
-### 2. Correo de Gmail
+### 2. Correo (Brevo)
 
-1. En la cuenta `zeniteark@gmail.com` activa la **verificación en dos pasos**.
-2. Ve a <https://myaccount.google.com/apppasswords>, crea una contraseña de aplicación «Zenite Web» y guárdala como `SMTP_CONTRASENA`.
+Render bloquea las conexiones SMTP salientes, así que en producción el correo se envía por
+la API HTTP de Brevo (gratis, no pide dominio propio: solo verificar un correo remitente).
+
+1. Crea una cuenta gratis en <https://www.brevo.com>.
+2. **Senders, Domains & Dedicated IPs → Senders → Add a sender**: agrega `zeniteark@gmail.com` y confirma el enlace que llega a ese correo.
+3. **SMTP & API → API Keys → Generate a new API key** y guárdala como `BREVO_API_KEY`.
+
+Para desarrollo local sin Brevo, el `.env.ejemplo` deja también la opción de Gmail por SMTP
+(contraseña de aplicación en <https://myaccount.google.com/apppasswords>), pero esa vía **no
+funciona en Render**.
 
 ### 3. Base de precios (una sola vez)
 
@@ -144,7 +152,7 @@ El último comando envía al correo un enlace para crear la contraseña del prim
 | `ORIGENES_PERMITIDOS` | La misma dirección del sitio (varias separadas por coma) |
 | `DATABASE_URL`, `DIRECT_URL` | De Supabase |
 | `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY` | De Supabase |
-| `SMTP_USUARIO`, `SMTP_CONTRASENA` | Gmail |
+| `BREVO_API_KEY` | De Brevo |
 
 `SECRETO_SESIONES` lo genera Render. El servidor no arranca en producción si falta alguna variable obligatoria.
 
