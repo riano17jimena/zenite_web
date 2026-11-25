@@ -71,7 +71,8 @@ export function crearServicioCorreo({ config, transporte } = {}) {
         htmlContent: mensaje.html,
         textContent: mensaje.text,
         replyTo: mensaje.replyTo ? partirRemitente(mensaje.replyTo) : undefined,
-        attachment: mensaje.attachments.map((a) => ({ name: a.filename, content: Buffer.from(a.content).toString('base64') })),
+        // Brevo rechaza el campo si se manda vacío («attachment is missing»): solo va si hay adjuntos de verdad.
+        attachment: mensaje.attachments.length ? mensaje.attachments.map((a) => ({ name: a.filename, content: Buffer.from(a.content).toString('base64') })) : undefined,
       }),
     });
     if (!respuesta.ok) {
