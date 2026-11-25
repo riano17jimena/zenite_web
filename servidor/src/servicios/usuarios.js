@@ -64,7 +64,7 @@ export function crearServicioUsuarios({ db, config, correo, historial, acceso })
       const enlace = `${config.urlApi}/panel/restablecer.html#token=${token}&nuevo=1`;
       const enviado = await enviarInvitacion(usuario, enlace);
       await historial.registrar({ usuario: autor, entidad: 'usuario', entidadId: usuario.id, accion: 'CREAR', resumen: `Creó el usuario ${usuario.nombre} (${usuario.rol})`, despues: detalle(usuario) });
-      return { ...detalle(usuario), enlaceInvitacion: enviado ? null : enlace };
+      return { ...detalle(usuario), enlaceInvitacion: enlace, correoEnviado: enviado };
     },
 
     async actualizar(id, datos, autor) {
@@ -98,7 +98,7 @@ export function crearServicioUsuarios({ db, config, correo, historial, acceso })
       const enlace = `${config.urlApi}/panel/restablecer.html#token=${token}&nuevo=1`;
       const enviado = await enviarInvitacion(usuario, enlace);
       await historial.registrar({ usuario: autor, entidad: 'usuario', entidadId: usuario.id, accion: 'ACTUALIZAR', resumen: `Reenvió la invitación a ${usuario.nombre}` });
-      return { enlaceInvitacion: enviado ? null : enlace };
+      return { enlaceInvitacion: enlace, correoEnviado: enviado };
     },
 
     async eliminar(id, autor) {

@@ -60,21 +60,31 @@ function accion(texto, u, ruta, mensaje, recargar) {
     onClick: async (e) => {
       try {
         const r = await conBotonOcupado(e.currentTarget, () => enviar(ruta), 'Un momento…');
-        if (r?.enlaceInvitacion) mostrarEnlaceInvitacion(u, r.enlaceInvitacion); else anunciar(mensaje);
+        if (r?.enlaceInvitacion) mostrarEnlaceInvitacion(u, r.enlaceInvitacion, r.correoEnviado); else anunciar(mensaje);
         recargar();
       } catch (err) { anunciarError(err); }
     },
   });
 }
 
-/** El correo automático no se pudo enviar (p. ej. sin dominio verificado en Resend): deja copiar el enlace para enviarlo a mano. */
-function mostrarEnlaceInvitacion(u, enlace) {
-  const { cuerpo, pie, cerrar } = abrirDialogo({ titulo: 'No se pudo enviar el correo' });
+/**
+ * Que Resend acepte el envío no garantiza que llegue (Gmail suele filtrar el dominio
+ * compartido de pruebas onboarding@resend.dev). Por eso siempre se ofrece copiar el
+ * enlace para enviarlo a mano como respaldo, aunque el correo se haya «enviado».
+ */
+function mostrarEnlaceInvitacion(u, enlace, correoEnviado) {
+  const { cuerpo, pie, cerrar } = abrirDialogo({ titulo: 'Enlace de invitación' });
   const campoEnlace = h('input', { type: 'text', readonly: true, value: enlace, class: 'campo-texto', onClick: (e) => e.currentTarget.select() });
+  const mensajeWhatsapp = `Hola ${u.nombre}, te invitamos al panel de Zenite Web. Crea tu contraseña con este enlace: ${enlace}`;
   cuerpo.append(
-    h('p', { text: `No pudimos enviarle el correo de invitación a ${u.nombre} (${u.correo}). Copia este enlace y envíaselo tú mismo, por ejemplo por WhatsApp o correo. Vence en 72 horas.` }),
+    h('p', {
+      text: correoEnviado
+        ? `Le enviamos el correo de invitación a ${u.correo}, pero a veces lo filtran como spam o no llega. Si en unos minutos no le llega, usa este enlace para enviárselo tú mismo (vence en 72 horas).`
+        : `No pudimos enviarle el correo de invitación a ${u.correo}. Copia este enlace y envíaselo tú mismo, por ejemplo por WhatsApp o correo (vence en 72 horas).`,
+    }),
     campoEnlace);
   pie.append(
+    h('a', { href: `https://wa.me/?text=${encodeURIComponent(mensajeWhatsapp)}`, target: '_blank', rel: 'noopener', class: 'boton boton-secundario', text: 'Enviar por WhatsApp' }),
     h('button', {
       type: 'button', class: 'boton boton-primario', text: 'Copiar enlace',
       onClick: async () => { await navigator.clipboard.writeText(enlace); anunciar('Enlace copiado.'); },
@@ -98,7 +108,7 @@ function formulario(u, recargar) {
     try {
       const r = await conBotonOcupado(guardar, () => (nuevo ? enviar('/api/admin/usuarios', leerFormulario(form)) : modificar(`/api/admin/usuarios/${u.id}`, leerFormulario(form))));
       cerrar(); recargar();
-      if (nuevo && r?.enlaceInvitacion) mostrarEnlaceInvitacion(r, r.enlaceInvitacion); else anunciar(nuevo ? 'Invitación enviada por correo.' : 'Usuario actualizado.');
+      if (nuevo && r?.enlaceInvitacion) mostrarEnlaceInvitacion(r, r.enlaceInvitacion, r.correoEnviado); else anunciar(nuevo ? 'Invitación enviada por correo.' : 'Usuario actualizado.');
     } catch (error) { mostrarErrores(form, error); }
   });
 }
