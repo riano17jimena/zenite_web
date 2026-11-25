@@ -26,8 +26,9 @@ export function cargarConfiguracion(valores = {}) {
     servirSitio: demo || v('SERVIR_SITIO', '') === '1',
     origenesPermitidos: v('ORIGENES_PERMITIDOS', 'http://localhost:8080,http://127.0.0.1:8080').split(',').map((s) => s.trim()).filter(Boolean),
     secreto: v('SECRETO_SESIONES', produccion ? undefined : 'solo-para-desarrollo-cambiar-en-produccion'),
-    // Correo: por API (Resend, recomendado en Render porque bloquea SMTP saliente)
-    // o por SMTP (Gmail con contraseña de aplicación), si no hay clave de Resend.
+    // Correo: por SMTP (Gmail con contraseña de aplicación) si hay credenciales, si no
+    // por la API de Resend (apiKey). SMTP no necesita dominio propio y envía a cualquier
+    // destinatario; Resend sin dominio verificado solo entrega al correo de su cuenta.
     resend: {
       apiKey: v('RESEND_API_KEY', ''),
       remitente: v('RESEND_REMITENTE', 'Zenite Web <onboarding@resend.dev>'),

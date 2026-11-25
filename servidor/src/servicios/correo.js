@@ -27,8 +27,15 @@ function plantilla({ titulo, parrafos = [], boton, pie }) {
 export function crearServicioCorreo({ config, transporte } = {}) {
   const bandeja = []; // correos de prueba (modo demostración)
   let transporteReal = transporte ?? null;
-  const usaResend = !transporte && Boolean(config.resend?.apiKey);
-  const simulado = !transporte && !usaResend && (config.demo || !config.smtp.usuario || !config.smtp.contrasena);
+  // SMTP (Gmail con contraseña de aplicación) va primero: no necesita dominio propio y
+  // puede enviar a cualquier destinatario, a diferencia de Resend sin dominio verificado.
+  // Antes fallaba en Render por timeout al conectar a smtp.gmail.com: Render suele resolver
+  // ese host con IPv6 primero y la ruta IPv6 no responde, así que se obliga IPv4 (family: 4).
+  const usaSmtp = !transporte && Boolean(config.smtp.usuario && config.smtp.contrasena);
+  const usaResend = !transporte && !usaSmtp && Boolean(config.resend?.apiKey);
+  // Sin credenciales reales de ninguno de los dos (como en pruebas o desarrollo local
+  // sin configurar), se guarda en la bandeja simulada en vez de intentar enviar de verdad.
+  const simulado = !transporte && !usaSmtp && !usaResend;
 
   async function obtenerTransporte() {
     if (transporteReal) return transporteReal;
@@ -38,9 +45,10 @@ export function crearServicioCorreo({ config, transporte } = {}) {
       port: config.smtp.puerto,
       secure: config.smtp.seguro,
       auth: { user: config.smtp.usuario, pass: config.smtp.contrasena },
-      connectionTimeout: 8000,
-      greetingTimeout: 8000,
-      socketTimeout: 10000,
+      family: 4,
+      connectionTimeout: 15000,
+      greetingTimeout: 15000,
+      socketTimeout: 20000,
     });
     return transporteReal;
   }
