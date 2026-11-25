@@ -32,6 +32,21 @@ export function crearServicioUsuarios({ db, config, correo, historial, acceso })
     return db.usuario.count({ where: { rol: 'ADMINISTRADOR', activo: true, ...(excepto ? { id: { not: excepto } } : {}) } });
   }
 
+  /**
+   * Intenta enviar la invitación por correo. Si falla (p. ej. el remitente de Resend
+   * no tiene un dominio verificado y no puede enviar a este destinatario), no revienta
+   * la operación: devuelve el enlace para que el administrador lo copie y lo envíe él mismo.
+   */
+  async function enviarInvitacion(usuario, url) {
+    try {
+      await correo.invitacion(usuario, url, HORAS_INVITACION);
+      return true;
+    } catch (error) {
+      console.error(`[correo] No se pudo enviar la invitación a ${usuario.correo}:`, error);
+      return false;
+    }
+  }
+
   return {
     async listar() {
       const usuarios = await db.usuario.findMany({ orderBy: [{ nombre: 'asc' }] });
@@ -46,9 +61,10 @@ export function crearServicioUsuarios({ db, config, correo, historial, acceso })
       // Contraseña aleatoria imposible de adivinar; el usuario crea la suya con el enlace.
       const usuario = await db.usuario.create({ data: { ...valores, hashContrasena: await cifrarContrasena(tokenAleatorio(48)) } });
       const token = await acceso.crearEnlaceContrasena(usuario, HORAS_INVITACION * 60);
-      await correo.invitacion(usuario, `${config.urlApi}/panel/restablecer.html#token=${token}&nuevo=1`, HORAS_INVITACION);
+      const enlace = `${config.urlApi}/panel/restablecer.html#token=${token}&nuevo=1`;
+      const enviado = await enviarInvitacion(usuario, enlace);
       await historial.registrar({ usuario: autor, entidad: 'usuario', entidadId: usuario.id, accion: 'CREAR', resumen: `Creó el usuario ${usuario.nombre} (${usuario.rol})`, despues: detalle(usuario) });
-      return detalle(usuario);
+      return { ...detalle(usuario), enlaceInvitacion: enviado ? null : enlace };
     },
 
     async actualizar(id, datos, autor) {
@@ -79,8 +95,10 @@ export function crearServicioUsuarios({ db, config, correo, historial, acceso })
       const usuario = await db.usuario.findUnique({ where: { id: Number(id) } });
       if (!usuario) throw noEncontrado('El usuario');
       const token = await acceso.crearEnlaceContrasena(usuario, HORAS_INVITACION * 60);
-      await correo.invitacion(usuario, `${config.urlApi}/panel/restablecer.html#token=${token}&nuevo=1`, HORAS_INVITACION);
+      const enlace = `${config.urlApi}/panel/restablecer.html#token=${token}&nuevo=1`;
+      const enviado = await enviarInvitacion(usuario, enlace);
       await historial.registrar({ usuario: autor, entidad: 'usuario', entidadId: usuario.id, accion: 'ACTUALIZAR', resumen: `Reenvió la invitación a ${usuario.nombre}` });
+      return { enlaceInvitacion: enviado ? null : enlace };
     },
 
     async eliminar(id, autor) {

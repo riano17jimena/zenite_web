@@ -57,8 +57,29 @@ export async function mostrar(contenedor, ctx) {
 function accion(texto, u, ruta, mensaje, recargar) {
   return h('button', {
     type: 'button', class: 'boton boton-secundario boton-pequeno', text: texto, 'aria-label': `${texto}: ${u.nombre}`,
-    onClick: async (e) => { try { await conBotonOcupado(e.currentTarget, () => enviar(ruta), 'Un momento…'); anunciar(mensaje); recargar(); } catch (err) { anunciarError(err); } },
+    onClick: async (e) => {
+      try {
+        const r = await conBotonOcupado(e.currentTarget, () => enviar(ruta), 'Un momento…');
+        if (r?.enlaceInvitacion) mostrarEnlaceInvitacion(u, r.enlaceInvitacion); else anunciar(mensaje);
+        recargar();
+      } catch (err) { anunciarError(err); }
+    },
   });
+}
+
+/** El correo automático no se pudo enviar (p. ej. sin dominio verificado en Resend): deja copiar el enlace para enviarlo a mano. */
+function mostrarEnlaceInvitacion(u, enlace) {
+  const { cuerpo, pie, cerrar } = abrirDialogo({ titulo: 'No se pudo enviar el correo' });
+  const campoEnlace = h('input', { type: 'text', readonly: true, value: enlace, class: 'campo-texto', onClick: (e) => e.currentTarget.select() });
+  cuerpo.append(
+    h('p', { text: `No pudimos enviarle el correo de invitación a ${u.nombre} (${u.correo}). Copia este enlace y envíaselo tú mismo, por ejemplo por WhatsApp o correo. Vence en 72 horas.` }),
+    campoEnlace);
+  pie.append(
+    h('button', {
+      type: 'button', class: 'boton boton-primario', text: 'Copiar enlace',
+      onClick: async () => { await navigator.clipboard.writeText(enlace); anunciar('Enlace copiado.'); },
+    }),
+    h('button', { type: 'button', class: 'boton boton-secundario', text: 'Cerrar', onClick: () => cerrar() }));
 }
 
 function formulario(u, recargar) {
@@ -75,8 +96,9 @@ function formulario(u, recargar) {
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
     try {
-      await conBotonOcupado(guardar, () => (nuevo ? enviar('/api/admin/usuarios', leerFormulario(form)) : modificar(`/api/admin/usuarios/${u.id}`, leerFormulario(form))));
-      cerrar(); anunciar(nuevo ? 'Invitación enviada por correo.' : 'Usuario actualizado.'); recargar();
+      const r = await conBotonOcupado(guardar, () => (nuevo ? enviar('/api/admin/usuarios', leerFormulario(form)) : modificar(`/api/admin/usuarios/${u.id}`, leerFormulario(form))));
+      cerrar(); recargar();
+      if (nuevo && r?.enlaceInvitacion) mostrarEnlaceInvitacion(r, r.enlaceInvitacion); else anunciar(nuevo ? 'Invitación enviada por correo.' : 'Usuario actualizado.');
     } catch (error) { mostrarErrores(form, error); }
   });
 }
